@@ -1,0 +1,9 @@
+(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[246],{5672:function(__unused_webpack_module,__unused_webpack_exports,__webpack_require__){Promise.resolve().then(__webpack_require__.bind(__webpack_require__,8339))},8339:function(__unused_webpack_module,__webpack_exports__,__webpack_require__){"use strict";__webpack_require__.r(__webpack_exports__);var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__=__webpack_require__(1844),react__WEBPACK_IMPORTED_MODULE_1__=__webpack_require__(5784);let LikeButton=()=>{let[liked,setLiked]=(0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(!1);return(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)("button",{onClick:()=>setLiked(!0),children:liked?"Si":"No"})};__webpack_exports__.default=LikeButton},9803:function(__unused_webpack_module,exports,__webpack_require__){"use strict";/**
+ * @license React
+ * react-jsx-runtime.production.min.js
+ *
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */ var f=__webpack_require__(5784),k=Symbol.for("react.element"),m=(Symbol.for("react.fragment"),Object.prototype.hasOwnProperty),n=f.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,p={key:!0,ref:!0,__self:!0,__source:!0};exports.jsx=function(c,a,g){var b,d={},e=null,h=null;for(b in void 0!==g&&(e=""+g),void 0!==a.key&&(e=""+a.key),void 0!==a.ref&&(h=a.ref),a)m.call(a,b)&&!p.hasOwnProperty(b)&&(d[b]=a[b]);if(c&&c.defaultProps)for(b in a=c.defaultProps)void 0===d[b]&&(d[b]=a[b]);return{$$typeof:k,type:c,key:e,ref:h,props:d,_owner:n.current}}},1844:function(module,__unused_webpack_exports,__webpack_require__){"use strict";module.exports=__webpack_require__(9803)}},function(__webpack_require__){__webpack_require__.O(0,[17,744],function(){return __webpack_require__(__webpack_require__.s=5672)}),_N_E=__webpack_require__.O()}]);
