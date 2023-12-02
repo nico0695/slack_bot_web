@@ -1,13 +1,6 @@
-# Ignore node_modules directory
 node_modules/
+.next/
+.vscode/
 
-# Ignore log files
-*.log
+out/
 
-# Ignore environment variables file
-.env
-
-# Ignore build artifacts
-dist/
-
-.next/cache/webpack/server-development/13.pack
