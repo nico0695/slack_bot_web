@@ -1,11 +1,11 @@
-import React from 'react'
-import styles from './GlobalConstants.module.scss'
+import React from 'react';
+
 const GlobalConstants = () => {
   return (
-    <div className={styles.pruebaAbout}>
-      <h2>GlobalConstants</h2>
+    <div>
+      <h5>GlobalConstants</h5>
     </div>
-  )
-}
+  );
+};
 
-export default GlobalConstants
+export default GlobalConstants;

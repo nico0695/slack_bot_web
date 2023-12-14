@@ -1,16 +1,18 @@
-.title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
+.container {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+
+  gap: 10px;
+
+  height: 100%;
+
+  margin-top: 20px;
 }
 
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
 
-    margin-top: 10px;
-    padding: 20px;
+  margin-top: 0;
+  margin-bottom: 10px;
 }

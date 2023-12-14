@@ -1,7 +1,7 @@
-import React from 'react'
-import Link from 'next/link'
+import React from 'react';
+import Link from 'next/link';
 
-import styles from './Header.module.css'
+import styles from './header.module.scss';
 
 const links = [
   {
@@ -13,14 +13,10 @@ const links = [
     route: '/globalConstants',
   },
   {
-    label: 'Post',
-    route: '/post',
-  },
-  {
     label: 'Conversations',
     route: '/conversations',
   },
-]
+];
 
 const Header = () => {
   return (
@@ -28,14 +24,14 @@ const Header = () => {
       <nav>
         <ul className={styles.navigation}>
           {links.map(({ label, route }) => (
-            <li key={route}>
+            <li className={styles.navItems} key={route}>
               <Link href={route}>{label}</Link>
             </li>
           ))}
         </ul>
       </nav>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

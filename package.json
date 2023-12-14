@@ -27,7 +27,8 @@
     "socket.io": "^4.7.2",
     "socket.io-client": "^4.7.2",
     "styled-components": "^5.3.6",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^5.0.0",

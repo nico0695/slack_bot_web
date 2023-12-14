@@ -1,34 +1,32 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+import { io } from 'socket.io-client';
 
 import styles from './conversations.module.scss';
+
 import ConversationFlow from './components/ConversationFlow/ConversationFlow';
-import { io } from 'socket.io-client';
+import ChannelList from './components/ChannelList/ChannelList';
+
 import { IUserConversation } from './components/ConversationFlow/interfaces/conversation.interfaces';
+import { useConversationsStore } from '../store/useConversationsStore';
 
 enum ConversatoionStates {
-  DEFAULT = 'DEFAULT',
-  WAITING = 'WAITING',
-  IN_CHANNEL = 'IN_CHANNEL',
+  DISCONNECTED = 'DISCONNECTED',
+  CONNECTED = 'CONNECTED',
 }
 
 const username = 'user0';
-const room = 'room_03';
 
 const Conversations = () => {
   const [conversationState, setConversationState] = useState(
-    ConversatoionStates.DEFAULT
+    ConversatoionStates.DISCONNECTED
   );
 
   const [socketInstance, setSocketInstance] = useState<any>();
 
-  const [initialConversation, setInitialConversation] = useState<
-    IUserConversation[]
-  >([]);
-
-  const joinRoom = () => {
-    socketInstance?.emit('join_room', { username, room });
-  };
+  const channelSelected = useConversationsStore(
+    (state) => state.channelSelected
+  );
 
   useEffect(() => {
     const socket = io('http://localhost:4000');
@@ -36,12 +34,11 @@ const Conversations = () => {
     setSocketInstance(socket);
 
     socket.on('connect', () => {
-      setConversationState(ConversatoionStates.WAITING);
-      console.log('idd', socket.id);
+      setConversationState(ConversatoionStates.CONNECTED);
+      console.log('socket id: ', socket.id);
     });
 
     socket.on('connect_error', () => {
-      console.log('CONNECT ERROR');
       setTimeout(() => socket.connect(), 5000);
     });
 
@@ -52,47 +49,40 @@ const Conversations = () => {
     };
   }, []);
 
+  const joinRoom = (channel: string) => {
+    socketInstance?.emit('join_room', { username, channel });
+  };
+
   useEffect(() => {
-    if (socketInstance) {
-      socketInstance.on(
-        'join_response',
-        (response: { conversation: IUserConversation[] }) => {
-          if (response.conversation) {
-            setConversationState(ConversatoionStates.IN_CHANNEL);
-            setInitialConversation(response.conversation);
-          }
-        }
-      );
+    if (
+      channelSelected &&
+      conversationState === ConversatoionStates.CONNECTED
+    ) {
+      joinRoom(channelSelected);
     }
-  }, [socketInstance]);
+  }, [channelSelected, conversationState]);
 
   return (
-    <div className={styles.container}>
-      <h4 className={styles.title}>Conversationsss</h4>
+    <div>
+      <h4 className={styles.title}>Conversaciones</h4>
 
-      {conversationState === ConversatoionStates.DEFAULT && (
+      {conversationState === ConversatoionStates.DISCONNECTED && (
         <h4>Conectando...</h4>
       )}
 
-      {conversationState === ConversatoionStates.WAITING && (
-        <div>
-          <button onClick={() => joinRoom()}>Join Channel</button>
-        </div>
-      )}
+      {conversationState === ConversatoionStates.CONNECTED && (
+        <div className={styles.container}>
+          <ChannelList />
 
-      {conversationState === ConversatoionStates.IN_CHANNEL &&
-        socketInstance && (
-          <div>
-            <h5>{`Canal: ${room}`}</h5>
-
+          {channelSelected && socketInstance && (
             <ConversationFlow
-              initialConversation={initialConversation}
               socket={socketInstance}
               username={username}
-              room={room}
+              channel={channelSelected}
             />
-          </div>
-        )}
+          )}
+        </div>
+      )}
     </div>
   );
 };

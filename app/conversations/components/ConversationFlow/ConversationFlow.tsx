@@ -1,43 +1,57 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import io from 'socket.io-client';
+import React, { useEffect, useRef, useState } from 'react';
 
 import styles from './conversationFlow.module.scss';
 import {
   IUserConversation,
   RoleTypes,
 } from './interfaces/conversation.interfaces';
+import { useConversationsStore } from '../../../store/useConversationsStore';
 
 interface IConversationFlow {
-  initialConversation?: IUserConversation[];
   socket?: any;
 
   username: string;
-  room: string;
+  channel: string;
 }
 
 const ConversationFlow = (props: IConversationFlow) => {
-  const { initialConversation, socket, username, room } = props;
+  const { socket, username, channel } = props;
 
   // State to store the current message
   const [message, setMessage] = useState('');
 
-  const [conversation, setConversation] = useState<any[]>(
-    initialConversation ?? []
-  );
+  const [conversation, setConversation] = useState<any[]>([]);
+
+  const { fetchChannels, setChannelSelected } = useConversationsStore();
+
+  const conversationRef = useRef<HTMLDivElement>(null);
 
   // Create a socket connection
-
   useEffect(() => {
     if (socket) {
-      console.log('--- useEffect ---')
-      socket.on('receive_message', (data: any) => {
-        console.log('receive_message= ', data);
+      socket.on(
+        'join_response',
+        (response: { conversation: IUserConversation[] }) => {
+          if (response.conversation) {
+            setConversation(response.conversation);
+          }
+        }
+      );
 
+      socket.on('receive_message', (data: any) => {
         setConversation((prevConversation) => [...prevConversation, data]);
       });
     }
   }, [socket]);
+
+  // Scroll to the bottom of the conversation
+  useEffect(() => {
+    conversationRef?.current?.scrollTo({
+      top: conversationRef?.current?.scrollHeight,
+      behavior: 'smooth',
+    });
+  }, [conversationRef, conversation]);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -45,7 +59,7 @@ const ConversationFlow = (props: IConversationFlow) => {
     if (message !== '') {
       socket.emit('send_message', {
         username,
-        room,
+        channel,
         message,
       });
       setConversation((prevConversation) => [
@@ -60,9 +74,34 @@ const ConversationFlow = (props: IConversationFlow) => {
     }
   };
 
+  const handleCloseChannel = async () => {
+    try {
+      await fetch('http://localhost:4000/conversations/close-channel/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          channelId: channel,
+        }),
+      });
+
+      setChannelSelected();
+      fetchChannels();
+    } catch (error) {
+      console.log('error= ', error);
+    }
+  };
+
   return (
     <div className={styles.container}>
-      <div className={styles.dialogContainer}>
+      <div className={styles.header}>
+        <button className={styles.headerButton} onClick={handleCloseChannel}>
+          Cerrar canal
+        </button>
+      </div>
+
+      <div className={styles.dialogContainer} ref={conversationRef}>
         {conversation.map((data: IUserConversation, i: number) => (
           <div
             key={i}
