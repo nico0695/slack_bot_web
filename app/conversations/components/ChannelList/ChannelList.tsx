@@ -1,5 +1,5 @@
 'use client';
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import styles from './channelList.module.scss';
 import { useConversationsStore } from '../../../store/useConversationsStore';

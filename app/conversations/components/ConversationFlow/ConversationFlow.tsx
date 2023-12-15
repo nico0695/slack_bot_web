@@ -1,5 +1,6 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
+import { Socket } from 'socket.io-client';
 
 import styles from './conversationFlow.module.scss';
 import {
@@ -9,7 +10,7 @@ import {
 import { useConversationsStore } from '../../../store/useConversationsStore';
 
 interface IConversationFlow {
-  socket?: any;
+  socket: Socket;
 
   username: string;
   channel: string;
@@ -21,7 +22,7 @@ const ConversationFlow = (props: IConversationFlow) => {
   // State to store the current message
   const [message, setMessage] = useState('');
 
-  const [conversation, setConversation] = useState<any[]>([]);
+  const [conversation, setConversation] = useState<IUserConversation[]>([]);
 
   const { fetchChannels, setChannelSelected } = useConversationsStore();
 
@@ -29,20 +30,18 @@ const ConversationFlow = (props: IConversationFlow) => {
 
   // Create a socket connection
   useEffect(() => {
-    if (socket) {
-      socket.on(
-        'join_response',
-        (response: { conversation: IUserConversation[] }) => {
-          if (response.conversation) {
-            setConversation(response.conversation);
-          }
+    socket.on(
+      'join_response',
+      (response: { conversation: IUserConversation[] }) => {
+        if (response.conversation) {
+          setConversation(response.conversation);
         }
-      );
+      }
+    );
 
-      socket.on('receive_message', (data: any) => {
-        setConversation((prevConversation) => [...prevConversation, data]);
-      });
-    }
+    socket.on('receive_message', (data: IUserConversation) => {
+      setConversation((prevConversation) => [...prevConversation, data]);
+    });
   }, [socket]);
 
   // Scroll to the bottom of the conversation
@@ -53,7 +52,7 @@ const ConversationFlow = (props: IConversationFlow) => {
     });
   }, [conversationRef, conversation]);
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (message !== '') {

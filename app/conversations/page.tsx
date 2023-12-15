@@ -1,13 +1,12 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { io } from 'socket.io-client';
+import { Socket, io } from 'socket.io-client';
 
 import styles from './conversations.module.scss';
 
 import ConversationFlow from './components/ConversationFlow/ConversationFlow';
 import ChannelList from './components/ChannelList/ChannelList';
 
-import { IUserConversation } from './components/ConversationFlow/interfaces/conversation.interfaces';
 import { useConversationsStore } from '../store/useConversationsStore';
 
 enum ConversatoionStates {
@@ -22,7 +21,7 @@ const Conversations = () => {
     ConversatoionStates.DISCONNECTED
   );
 
-  const [socketInstance, setSocketInstance] = useState<any>();
+  const [socketInstance, setSocketInstance] = useState<Socket>();
 
   const channelSelected = useConversationsStore(
     (state) => state.channelSelected
