@@ -1,0 +1,27 @@
+.navigationButton {
+  background-color: #edf3f1;
+  color: #0e1513;
+  border: 1px solid #1a1a1a;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 0.8em;
+  align-items: center;
+  display: flex;
+  gap: 5px;
+
+  &:hover {
+    background-color: #dee8e5;
+  }
+}
+
+.navigationButton.disabled {
+  background-color: #edf3f191;
+  cursor: default;
+}
+
+.navigationContainer {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+}

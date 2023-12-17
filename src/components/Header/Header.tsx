@@ -8,13 +8,17 @@ const links = [
     label: 'Home',
     route: '/',
   },
+  // {
+  //   label: 'Constants',
+  //   route: '/globalConstants',
+  // },
   {
-    label: 'Constants',
-    route: '/globalConstants',
+    label: 'Conversaciones',
+    route: '/conversations',
   },
   {
-    label: 'Conversations',
-    route: '/conversations',
+    label: 'Imagenes',
+    route: '/images/1',
   },
 ];
 

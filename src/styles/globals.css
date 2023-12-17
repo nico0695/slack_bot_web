@@ -9,8 +9,7 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 
   color: white;
-  /* background: #204d50; */
-  background: rgb(33, 50, 46);
+  background: #21322e;
   background: linear-gradient(
     157deg,
     rgba(33, 50, 46, 1) 0%,

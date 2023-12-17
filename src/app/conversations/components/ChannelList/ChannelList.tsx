@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 
 import styles from './channelList.module.scss';
-import { useConversationsStore } from '../../../store/useConversationsStore';
+import { useConversationsStore } from '../../../../store/useConversationsStore';
 
 const ChannelList = () => {
   const [newChannelIsOpen, setNewChannelIsOpen] = useState(false);

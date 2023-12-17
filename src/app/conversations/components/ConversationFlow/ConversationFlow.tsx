@@ -7,7 +7,7 @@ import {
   IUserConversation,
   RoleTypes,
 } from './interfaces/conversation.interfaces';
-import { useConversationsStore } from '../../../store/useConversationsStore';
+import { useConversationsStore } from '../../../../store/useConversationsStore';
 
 interface IConversationFlow {
   socket: Socket;
