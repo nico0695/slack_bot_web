@@ -8,17 +8,21 @@ import ConversationFlow from './components/ConversationFlow/ConversationFlow';
 import ChannelList from './components/ChannelList/ChannelList';
 
 import { useConversationsStore } from '../../store/useConversationsStore';
+import { useAuthStore } from '../../store/useAuthStore';
+import UserLogin from './components/UserLogin/UserLogin';
+import apiConfig from '../config/apiConfig';
 
 enum ConversatoionStates {
   DISCONNECTED = 'DISCONNECTED',
+  CONNECTING = 'CONNECTING',
   CONNECTED = 'CONNECTED',
 }
 
-const username = 'user0';
-
 const Conversations = () => {
+  const { username } = useAuthStore();
+
   const [conversationState, setConversationState] = useState(
-    ConversatoionStates.DISCONNECTED
+    username ? ConversatoionStates.CONNECTING : ConversatoionStates.DISCONNECTED
   );
 
   const [socketInstance, setSocketInstance] = useState<Socket>();
@@ -28,25 +32,28 @@ const Conversations = () => {
   );
 
   useEffect(() => {
-    const socket = io('http://localhost:4000');
+    if (username) {
+      setConversationState(ConversatoionStates.CONNECTING);
+      const socket = io(apiConfig.BASE_URL);
 
-    setSocketInstance(socket);
+      setSocketInstance(socket);
 
-    socket.on('connect', () => {
-      setConversationState(ConversatoionStates.CONNECTED);
-      console.log('socket id: ', socket.id);
-    });
+      socket.on('connect', () => {
+        setConversationState(ConversatoionStates.CONNECTED);
+        console.log('socket id: ', socket.id);
+      });
 
-    socket.on('connect_error', () => {
-      setTimeout(() => socket.connect(), 5000);
-    });
+      socket.on('connect_error', () => {
+        setTimeout(() => socket.connect(), 5000);
+      });
 
-    socket.on('disconnect', () => console.log('socket disconnected'));
+      socket.on('disconnect', () => console.log('socket disconnected'));
 
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+      return () => {
+        socket.disconnect();
+      };
+    }
+  }, [username]);
 
   const joinRoom = (channel: string) => {
     socketInstance?.emit('join_room', { username, channel });
@@ -65,11 +72,13 @@ const Conversations = () => {
     <div>
       <h4 className={styles.title}>Conversaciones</h4>
 
-      {conversationState === ConversatoionStates.DISCONNECTED && (
+      {conversationState === ConversatoionStates.DISCONNECTED && <UserLogin />}
+
+      {conversationState === ConversatoionStates.CONNECTING && (
         <h4>Conectando...</h4>
       )}
 
-      {conversationState === ConversatoionStates.CONNECTED && (
+      {conversationState === ConversatoionStates.CONNECTED && username && (
         <div className={styles.container}>
           <ChannelList />
 

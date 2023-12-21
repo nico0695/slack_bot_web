@@ -1,5 +1,7 @@
 import Image from 'next/image';
 
+import apiConfig from '../../config/apiConfig';
+
 import { IImages } from '../../../shared/interfaces/images.interfaces';
 import { IPaginationResponse } from '../../../shared/interfaces/pagination.interfaces';
 
@@ -10,7 +12,7 @@ import PaginationBar from '../components/PaginationBar/PaginationBar';
 async function getData(page: number): Promise<IPaginationResponse<IImages>> {
   try {
     const res = await fetch(
-      `http://localhost:4000/images/get-images?page=${page}&pageSize=6`,
+      `${apiConfig.BASE_URL}/images/get-images?page=${page}&pageSize=6`,
       {
         method: 'GET',
         headers: {

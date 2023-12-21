@@ -16,7 +16,13 @@ const ChannelList = () => {
   } = useConversationsStore();
 
   useEffect(() => {
+    const interval = setInterval(() => {
+      fetchChannels();
+    }, 10000);
+
     fetchChannels();
+
+    return () => clearInterval(interval);
   }, []);
 
   const handleChannelClick = (channel: string) => {

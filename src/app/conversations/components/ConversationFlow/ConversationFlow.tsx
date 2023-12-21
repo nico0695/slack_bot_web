@@ -2,6 +2,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Socket } from 'socket.io-client';
 
+import apiConfig from '../../../config/apiConfig';
+
 import styles from './conversationFlow.module.scss';
 import {
   IUserConversation,
@@ -22,6 +24,8 @@ const ConversationFlow = (props: IConversationFlow) => {
   // State to store the current message
   const [message, setMessage] = useState('');
 
+  const [iaEnabled, setIaEnabled] = useState(false);
+
   const [conversation, setConversation] = useState<IUserConversation[]>([]);
 
   const { fetchChannels, setChannelSelected } = useConversationsStore();
@@ -34,7 +38,9 @@ const ConversationFlow = (props: IConversationFlow) => {
       'join_response',
       (response: { conversation: IUserConversation[] }) => {
         if (response.conversation) {
-          setConversation(response.conversation);
+          setConversation(
+            response.conversation.filter((conv) => conv !== null)
+          );
         }
       }
     );
@@ -60,10 +66,12 @@ const ConversationFlow = (props: IConversationFlow) => {
         username,
         channel,
         message,
+        iaEnabled,
       });
       setConversation((prevConversation) => [
         ...prevConversation,
         {
+          userSlackId: username,
           role: RoleTypes.user,
           content: message,
         },
@@ -75,7 +83,7 @@ const ConversationFlow = (props: IConversationFlow) => {
 
   const handleCloseChannel = async () => {
     try {
-      await fetch('http://localhost:4000/conversations/close-channel/', {
+      await fetch(`${apiConfig.BASE_URL}/conversations/close-channel/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -92,9 +100,19 @@ const ConversationFlow = (props: IConversationFlow) => {
     }
   };
 
+  console.log('data= ', conversation);
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
+        <div>{`usuario: ${username}`}</div>
+        <div
+          className={styles.checkContainer}
+          onClick={() => setIaEnabled((prev) => !prev)}
+        >
+          <label htmlFor="iaEnabled">Activar ia</label>
+          <input name="iaEnabled" type="checkbox" checked={iaEnabled} />
+        </div>
         <button className={styles.headerButton} onClick={handleCloseChannel}>
           Cerrar canal
         </button>
@@ -104,26 +122,26 @@ const ConversationFlow = (props: IConversationFlow) => {
         {conversation.map((data: IUserConversation, i: number) => (
           <div
             key={i}
-            className={`${
-              data.role === RoleTypes.user
+            className={`${styles.bubble} ${
+              data?.role === RoleTypes.user && data.userSlackId === username
                 ? styles.bubbleRight
                 : styles.bubbleLeft
-            } ${styles.bubble}`}
+            }`}
           >
-            <p>{data.content}</p>
+            <h6 className={styles.bubbleUser}>{data.userSlackId}</h6>
+            <p className={styles.bubbleMessage}>{data.content}</p>
           </div>
         ))}
       </div>
 
       <div>
         <form onSubmit={handleSubmit} className={styles.formContainer}>
-          <textarea
-            name="message"
-            rows={3}
-            className={styles.messageInput}
+          <input
+            type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-          ></textarea>
+            className={styles.messageInput}
+          />
           <button
             className={styles.messageButton}
             type="submit"

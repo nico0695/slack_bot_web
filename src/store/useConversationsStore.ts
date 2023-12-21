@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import apiConfig from '../app/config/apiConfig';
 
 export interface ConversationsStore {
   channels: string[];
@@ -24,9 +25,14 @@ export const useConversationsStore = create<ConversationsStore>()((set) => ({
   // Actions
   fetchChannels: async () => {
     const res = await fetch(
-      'http://localhost:4000/conversations/show-channels'
-    );
-    set({ channels: await res.json() });
+      `${apiConfig.BASE_URL}/conversations/show-channels`
+    ).then((res) => res.json());
+    set((state) => ({
+      channels: res,
+      channelSelected: res.includes(state.channelSelected)
+        ? state.channelSelected
+        : undefined,
+    }));
   },
 
   setChannelSelected: (channel?: string) => {
