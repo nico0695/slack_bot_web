@@ -1,0 +1,36 @@
+.detailContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+
+  padding: 20px 40px;
+  margin-top: 50px;
+
+  border-radius: 10px;
+  border: 1.5px solid #959e9c;
+
+  background: #3c4f4a;
+  color: #f6fffe;
+
+  h3 {
+    width: fit-content;
+    margin: 0;
+  }
+
+  p {
+    margin: 0;
+    margin-bottom: 10px;
+    font-size: 0.9em;
+    text-align: start;
+    text-wrap: balance;
+  }
+
+  audio {
+    align-self: center;
+
+    &::-webkit-media-controls-panel {
+      background-color: #273a35;
+    }
+  }
+}

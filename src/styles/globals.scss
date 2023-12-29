@@ -32,7 +32,7 @@ a {
     color-scheme: dark;
   }
   body {
-    color: white;
+    color: #f7fffe;
   }
 }
 
@@ -46,7 +46,7 @@ a {
 }
 
 /* Dialog */
-dialog::backdrop {
+/* dialog::backdrop {
   background-color: red;
   opacity: 0.75;
 }
@@ -55,4 +55,4 @@ dialog {
   position: fixed;
   top: 50%;
   transform: translate(0, -50%);
-}
+} */

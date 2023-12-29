@@ -1,0 +1,42 @@
+.simpleTable {
+  table {
+    border-collapse: collapse;
+    border: solid 1px #959e9c;
+
+    border-radius: 10px;
+    display: block;
+
+    max-height: 600px;
+    overflow: auto;
+    height: 70vh;
+
+    thead {
+      position: sticky;
+      top: 0;
+
+      th {
+        padding: 10px 10px;
+        font-weight: bold;
+        font-size: 1.1em;
+        background: #396b5e;
+
+        &:not(:last-child) {
+          border-right: solid 1px #5c706c;
+        }
+      }
+    }
+
+    tbody {
+      tr:nth-child(odd) {
+        background-color: #f2f2f21b;
+      }
+
+      td {
+        padding: 10px 10px;
+        font-size: 1.1em;
+
+        text-align: start;
+      }
+    }
+  }
+}

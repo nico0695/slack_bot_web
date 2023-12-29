@@ -1,0 +1,70 @@
+.formPhrase {
+  width: 100%;
+
+  margin-bottom: 20px;
+}
+
+.labeledValue {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 10px;
+
+  label {
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 7px;
+    border-radius: 5px;
+
+    background: #f6fffc;
+    border: 1px solid #7ab3a5;
+
+    color: #1c3730;
+
+    resize: vertical;
+    max-height: 250px;
+
+    &:focus {
+      outline: none;
+
+      background: #f8fffd;
+      border: 1.5px solid #438a78;
+    }
+  }
+}
+
+.button {
+  margin-top: 10px;
+
+  padding: 10px 15px;
+
+  border: none;
+  border-radius: 10px;
+
+  background-color: #438a78;
+  color: white;
+
+  font-size: 1rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  float: right;
+
+  &:hover {
+    background-color: #438a78b3;
+  }
+
+  &:disabled {
+    background-color: #5b6c68;
+    color: rgb(171, 171, 171);
+    cursor: auto;
+  }
+}

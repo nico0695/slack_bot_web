@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 
+import 'react-toastify/dist/ReactToastify.css';
+
 import styles from './header.module.scss';
 
 const links = [
@@ -19,6 +21,10 @@ const links = [
   {
     label: 'Imagenes',
     route: '/images/1',
+  },
+  {
+    label: 'Generar Audio',
+    route: '/textToSpeech',
   },
 ];
 
