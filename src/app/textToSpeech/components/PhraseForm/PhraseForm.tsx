@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 import apiConfig from '../../../config/apiConfig';
 
@@ -23,6 +23,13 @@ const PhraseForm = (props: IPhraseFormProps) => {
     try {
       startLoading();
 
+      const phrase = event.currentTarget.phrase.value;
+
+      if (!phrase) {
+        toast.error('Ingrese una frase');
+        return;
+      }
+
       const res = await fetch(`${apiConfig.BASE_URL}/text-to-speech/generate`, {
         method: 'POST',
         headers: {
@@ -36,11 +43,11 @@ const PhraseForm = (props: IPhraseFormProps) => {
       console.log('res= ', res);
       toast('Se genero el audio correctamente');
 
+      event.currentTarget.reset();
+
       if (onSubmit) {
         onSubmit(true);
       }
-
-      event.currentTarget.phrase.value = '';
     } catch (error) {
       console.log('error= ', error);
     }
@@ -50,36 +57,20 @@ const PhraseForm = (props: IPhraseFormProps) => {
 
   return (
     <>
-      <ToastContainer
-        position="top-center"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
-
-      <form className={styles.formPhrase} onSubmit={handleSubmit}>
+      <form
+        id="speech-form"
+        className={styles.formPhrase}
+        onSubmit={handleSubmit}
+      >
         <div className={styles.labeledValue}>
           <label htmlFor="phrase">Frase a convertir en audio</label>
-          {/* <input
-            type="text"
-            name="phrase"
-            id="text"
-            placeholder="Whispers in the moonlight..."
-            autoFocus
-            autoComplete="off"
-          /> */}
           <textarea
             name="phrase"
             id="text"
             cols={40}
             rows={5}
             autoFocus
+            placeholder="Hi, my name is John Doe."
           ></textarea>
         </div>
         <button

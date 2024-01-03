@@ -1,9 +1,12 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 
 import 'react-toastify/dist/ReactToastify.css';
 
 import styles from './header.module.scss';
+import { ToastContainer } from 'react-toastify';
 
 const links = [
   {
@@ -31,6 +34,19 @@ const links = [
 const Header = () => {
   return (
     <header className={styles.header}>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+
       <nav>
         <ul className={styles.navigation}>
           {links.map(({ label, route }) => (

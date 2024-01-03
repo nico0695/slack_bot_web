@@ -5,7 +5,7 @@ export enum RoleTypes {
 }
 
 export interface IConversation {
-  role: string;
+  role: RoleTypes;
   content: string;
 }
 

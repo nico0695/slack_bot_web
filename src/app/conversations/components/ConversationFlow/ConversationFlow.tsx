@@ -128,7 +128,9 @@ const ConversationFlow = (props: IConversationFlow) => {
                 : styles.bubbleLeft
             }`}
           >
-            <h6 className={styles.bubbleUser}>{data.userSlackId}</h6>
+            <h6 className={styles.bubbleUser}>
+              {data.role === RoleTypes.assistant ? 'Bot' : data.userSlackId}
+            </h6>
             <p className={styles.bubbleMessage}>{data.content}</p>
           </div>
         ))}
