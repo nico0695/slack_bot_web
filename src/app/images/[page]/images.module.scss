@@ -6,13 +6,41 @@
   column-gap: 20px;
 }
 
-.card {
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.card,
+.skeletonCard {
   height: 40vh;
   max-height: 400px;
 
   border-radius: 10px;
   background-color: #fff;
   color: #1a1a1a;
+
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes skeleton {
+  0% {
+    opacity: 0.15;
+  }
+  100% {
+    opacity: 0.18;
+  }
+}
+
+.skeletonCard {
+  background-color: #d2d2d2;
+  opacity: 0.15;
+
+  animation: skeleton 1s infinite alternate ease;
 }
 
 .cardImage {

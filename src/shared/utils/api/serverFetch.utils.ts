@@ -1,3 +1,6 @@
+import { cookies } from 'next/headers';
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
+
 import axios, {
   AxiosInstance,
   AxiosRequestConfig,
@@ -7,15 +10,13 @@ import axios, {
 
 import apiConfig from '../../../app/config/apiConfig';
 
-import { getAuthData } from '../localStorage/auth.utils';
-
 export interface IApiResponse<T> {
   data?: T;
   error?: string;
 }
 
 // Create an Axios instance with base URL and headers
-const axiosInstance: AxiosInstance = axios.create({
+const axiosServerInstance: AxiosInstance = axios.create({
   baseURL: apiConfig.BASE_URL,
   headers: {
     'Content-Type': 'application/json',
@@ -23,14 +24,15 @@ const axiosInstance: AxiosInstance = axios.create({
 });
 
 // Add an interceptor to handle errors globally
-axiosInstance.interceptors.response.use(
+axiosServerInstance.interceptors.response.use(
   (response: AxiosResponse) => {
     return response;
   },
   (error) => {
-    // Redirect to login page if the user is unauthorized
+    // TODO: Redirect to login page if the user is unauthorized
     if (error.response?.status === 401) {
-      window.location.href = '/';
+      console.log('ERROR AUTH');
+      // window.location.href = '/';
     }
 
     return Promise.reject(error.message);
@@ -42,17 +44,20 @@ export const fetchData = async <T>(
   config: AxiosRequestConfig
 ): Promise<IApiResponse<T>> => {
   try {
-    const authData = getAuthData();
+    const cookieStore = cookies();
+    const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
+    const session = await supabase.auth.getSession();
+    const accessToken = session.data?.session?.access_token;
 
     const configWithAuth: AxiosRequestConfig = {
       ...config,
       headers: {
         ...config.headers,
-        Authorization: `Bearer ${authData.token}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     };
 
-    const response = await axiosInstance(configWithAuth);
+    const response = await axiosServerInstance(configWithAuth);
 
     return {
       data: response.data,

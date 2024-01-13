@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+
 import Image from 'next/image';
 
 import apiConfig from '../../config/apiConfig';
@@ -5,29 +7,24 @@ import apiConfig from '../../config/apiConfig';
 import { IImages } from '../../../shared/interfaces/images.interfaces';
 import { IPaginationResponse } from '../../../shared/interfaces/pagination.interfaces';
 
+import { getRequest } from '../../../shared/utils/api/serverFetch.utils';
+
 import styles from './images.module.scss';
 
+import Loading from './loading';
 import PaginationBar from '../components/PaginationBar/PaginationBar';
 
 async function getData(page: number): Promise<IPaginationResponse<IImages>> {
   try {
-    const res = await fetch(
-      `${apiConfig.BASE_URL}/images/get-images?page=${page}&pageSize=6`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
+    const res = await getRequest<IPaginationResponse<IImages>>(
+      `${apiConfig.BASE_URL}/images/get-images?page=${page}&pageSize=6`
     );
 
-    if (!res.ok) {
-      throw new Error('Failed to fetch data');
+    if (res.error || !res.data) {
+      throw new Error(res.error);
     }
 
-    const resJson = await res.json();
-
-    return resJson;
+    return res.data;
   } catch (err) {
     return {
       data: [],
@@ -50,35 +47,37 @@ const Images = async ({ params }: IImagesProps) => {
   const imagePage = await getData(pageNumber);
 
   return (
-    <section className="">
-      {imagePage?.data && (
-        <>
-          <div className={styles.imageContainer}>
-            {imagePage?.data?.map((p) => (
-              <div className={styles.card} key={p.id}>
-                <Image
-                  src={p.imageUrl}
-                  alt={p.prompt}
-                  className={styles.cardImage}
-                  width={300}
-                  height={300}
-                />
+    <Suspense fallback={<Loading />}>
+      <section className="">
+        {imagePage?.data && (
+          <>
+            <div className={styles.imageContainer}>
+              {imagePage?.data?.map((p) => (
+                <div className={styles.card} key={p.id}>
+                  <Image
+                    src={p.imageUrl}
+                    alt={p.prompt}
+                    className={styles.cardImage}
+                    width={300}
+                    height={300}
+                  />
 
-                <div className={styles.cardInfo}>
-                  <h6 className={styles.cardTitle}>{`#${p.id}`}</h6>
-                  <p className={styles.cardDescription}>{p.prompt || '-'}</p>
+                  <div className={styles.cardInfo}>
+                    <h6 className={styles.cardTitle}>{`#${p.id}`}</h6>
+                    <p className={styles.cardDescription}>{p.prompt || '-'}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-          <PaginationBar
-            page={pageNumber}
-            count={imagePage?.count}
-            pageSize={imagePage?.pageSize}
-          />
-        </>
-      )}
-    </section>
+              ))}
+            </div>
+            <PaginationBar
+              page={pageNumber}
+              count={imagePage?.count}
+              pageSize={imagePage?.pageSize}
+            />
+          </>
+        )}
+      </section>
+    </Suspense>
   );
 };
 

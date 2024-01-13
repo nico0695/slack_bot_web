@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import styles from './header.module.scss';
 import { ToastContainer } from 'react-toastify';
+import { useAuthStore } from '../../store/useAuthStore';
 
 const links = [
   {
@@ -32,6 +33,8 @@ const links = [
 ];
 
 const Header = () => {
+  const { username } = useAuthStore();
+
   return (
     <header className={styles.header}>
       <ToastContainer
@@ -56,6 +59,7 @@ const Header = () => {
           ))}
         </ul>
       </nav>
+      <div className={styles.navItems}>{username}</div>
     </header>
   );
 };
