@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 
 import styles from './channelList.module.scss';
 import { useConversationsStore } from '../../../../store/useConversationsStore';
+import PrimaryButton from '../../../../components/Buttons/PrimaryButton/PrimaryButton';
+import Dialog from '../../../../components/Dialog/Dialog';
 
 const ChannelList = () => {
   const [newChannelIsOpen, setNewChannelIsOpen] = useState(false);
@@ -64,30 +66,43 @@ const ChannelList = () => {
         })}
       </ul>
 
-      <button
-        className={styles.newButton}
+      <PrimaryButton
+        label="Nuevo"
         onClick={() => setNewChannelIsOpen(true)}
-      >
-        Nuevo
-      </button>
+        style={{
+          borderTopLeftRadius: 0,
+          borderTopRightRadius: 0,
+        }}
+      />
 
-      <dialog open={newChannelIsOpen}>
-        <p>Ingrese el nombre del canal</p>
-        <form onSubmit={handleCreateChannel}>
-          <input
-            name="channelName"
-            type="text"
-            placeholder="Canal..."
-            autoFocus
-            onKeyDown={(e) => {
-              if (e.keyCode === 32) {
-                e.preventDefault();
-              }
-            }}
-          />
-          <button type="submit">OK</button>
-        </form>
-      </dialog>
+      <Dialog
+        title="Nuevo canal"
+        isOpen={newChannelIsOpen}
+        hideModal={() => setNewChannelIsOpen(false)}
+      >
+        <div>
+          <form onSubmit={handleCreateChannel}>
+            <div className={styles.labeledValue}>
+              <label htmlFor="phrase">Nobre del canal</label>
+              <input
+                name="channelName"
+                type="text"
+                placeholder="Canal..."
+                autoFocus
+                onKeyDown={(e) => {
+                  if (e.keyCode === 32) {
+                    e.preventDefault();
+                  }
+                }}
+              />
+            </div>
+
+            <div className={styles.buttonContainer}>
+              <PrimaryButton label={'Guardar'} type="submit" />
+            </div>
+          </form>
+        </div>
+      </Dialog>
     </div>
   );
 };

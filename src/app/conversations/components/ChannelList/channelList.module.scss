@@ -25,58 +25,76 @@
 
   border-radius: 10px 10px 0 0;
 
-  border: 1px solid #edececa8;
-  background: #0909092b;
+  border: 1px solid var(--blue-bayoux-600);
+  background: var(--blue-bayoux-950);
 }
 
 .channelItem {
+  cursor: pointer;
+
   padding: 15px 10px;
   text-align: start;
 
-  border-bottom: 1px solid #edececa8;
-  background: #2d413c;
-  // &:not(:last-child) {
-  //   border-bottom: 1px solid #edececa8;
-  // }
+  background: var(--blue-bayoux-800);
 
-  cursor: pointer;
+  &:nth-child(odd) {
+    background-color: var(--blue-bayoux-900);
+  }
 
   &:hover {
-    background-color: #e9e8e821;
+    background-color: var(--blue-bayoux-700);
   }
 }
 
 .channelItem.active {
-  background-color: rgba(233, 232, 232, 0.1294117647);
-  box-shadow: 0 0 0 2px rgb(97 136 126);
+  background-color: var(--blue-bayoux-500);
 
   border: none;
-
-  &:last-child {
-    border-radius: 0 0 10px 10px;
-  }
 
   &:first-child {
     border-radius: 10px 10px 0 0;
   }
 }
 
-.newButton {
-  width: 100%;
-  padding: 10px 15px;
+.labeledValue {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 10px;
 
-  border: none;
-  border-radius: 0 0 10px 10px;
-
-  background-color: #438a78;
-  color: white;
-
-  font-size: 1.2rem;
-  font-weight: 600;
-
-  cursor: pointer;
-
-  &:hover {
-    background-color: #438a78b3;
+  label {
+    font-size: 0.95rem;
+    font-weight: 500;
   }
+
+  input,
+  textarea {
+    width: 100%;
+    padding: 7px;
+    border-radius: 5px;
+
+    background: var(--blue-bayoux-50);
+    border: 1px solid var(--blue-bayoux-500);
+
+    color: var(--blue-bayoux-950);
+
+    resize: vertical;
+    max-height: 250px;
+
+    &:focus {
+      outline: none;
+
+      background: #f8fffd;
+      box-shadow: 0 0 0 1px var(--blue-bayoux-600);
+    }
+  }
+}
+
+.buttonContainer {
+  margin-top: 20px;
+
+  display: flex;
+  justify-content: flex-end;
 }

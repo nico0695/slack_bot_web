@@ -1,7 +1,9 @@
 .simpleTable {
   table {
     border-collapse: collapse;
-    border: solid 1px #959e9c;
+    background-color: var(--blue-bayoux-950);
+    border: solid 1px var(--blue-bayoux-600);
+    color: var(--blue-bayoux-50);
 
     border-radius: 10px;
     display: block;
@@ -17,11 +19,14 @@
       th {
         padding: 10px 10px;
         font-weight: bold;
-        font-size: 1.1em;
-        background: #396b5e;
+        font-size: 1em;
+        background: var(--blue-bayoux-300);
+        color: var(--blue-bayoux-800);
 
+        border-top: solid 1px var(--blue-bayoux-600);
+        border-bottom: solid 1px var(--blue-bayoux-600);
         &:not(:last-child) {
-          border-right: solid 1px #5c706c;
+          border-right: solid 1px var(--blue-bayoux-600);
         }
       }
     }
@@ -33,7 +38,7 @@
 
       td {
         padding: 10px 10px;
-        font-size: 1.1em;
+        font-size: 0.85em;
 
         text-align: start;
       }

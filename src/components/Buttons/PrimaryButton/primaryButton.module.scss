@@ -4,15 +4,23 @@
   border: none;
   border-radius: 10px;
 
-  background-color: #438a78;
-  color: white;
+  background-color: var(--btn-primary);
+  color: var(--blue-bayoux-950);
 
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1rem;
 
   cursor: pointer;
 
   &:hover {
-    background-color: #438a78b3;
+    background-color: var(--blue-bayoux-300);
+  }
+
+  &:active {
+    background-color: var(--blue-bayoux-500);
+  }
+
+  &:disabled {
+    background-color: var(--blue-bayoux-800);
+    color: var(--blue-bayoux-100);
   }
 }

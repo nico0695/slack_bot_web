@@ -7,6 +7,7 @@ import apiConfig from '../../../config/apiConfig';
 
 import styles from './phraseForm.module.scss';
 import { useToggle } from '../../../../shared/hooks/useToggle/useToggle';
+import PrimaryButton from '../../../../components/Buttons/PrimaryButton/PrimaryButton';
 
 interface IPhraseFormProps {
   onSubmit: (isSuccess: boolean) => void;
@@ -21,14 +22,14 @@ const PhraseForm = (props: IPhraseFormProps) => {
     event.preventDefault();
 
     try {
-      startLoading();
-
       const phrase = event.currentTarget.phrase.value;
 
       if (!phrase) {
         toast.error('Ingrese una frase');
         return;
       }
+
+      startLoading();
 
       const res = await fetch(`${apiConfig.BASE_URL}/text-to-speech/generate`, {
         method: 'POST',
@@ -43,11 +44,11 @@ const PhraseForm = (props: IPhraseFormProps) => {
       console.log('res= ', res);
       toast('Se genero el audio correctamente');
 
-      event.currentTarget.reset();
-
       if (onSubmit) {
         onSubmit(true);
       }
+
+      event.currentTarget.reset();
     } catch (error) {
       console.log('error= ', error);
     }
@@ -73,14 +74,14 @@ const PhraseForm = (props: IPhraseFormProps) => {
             placeholder="Hi, my name is John Doe."
           ></textarea>
         </div>
-        <button
-          className={styles.button}
-          type="submit"
-          id="submit"
-          disabled={isLoading}
-        >
-          {isLoading ? 'Generando...' : 'Generar audio'}
-        </button>
+
+        <div className={styles.buttonContainer}>
+          <PrimaryButton
+            label={isLoading ? 'Generando...' : 'Generar audio'}
+            disabled={isLoading}
+            type="submit"
+          />
+        </div>
       </form>
     </>
   );

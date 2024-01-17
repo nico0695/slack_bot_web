@@ -8,14 +8,18 @@
   margin-top: 50px;
 
   border-radius: 10px;
-  border: 1.5px solid #959e9c;
 
-  background: #3c4f4a;
-  color: #f6fffe;
+  background-image: linear-gradient(
+    166deg,
+    var(--blue-bayoux-300) 0%,
+    var(--blue-bayoux-400) 30%,
+    var(--blue-bayoux-700) 100%
+  );
 
   h3 {
     width: fit-content;
     margin: 0;
+    color: var(--blue-bayoux-900);
   }
 
   p {
@@ -30,7 +34,7 @@
     align-self: center;
 
     &::-webkit-media-controls-panel {
-      background-color: #273a35;
+      background-color: var(--blue-bayoux-800);
     }
   }
 }

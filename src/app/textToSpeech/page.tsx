@@ -6,7 +6,7 @@ import styles from './textToSpeech.module.scss';
 
 import PhraseForm from './components/PhraseForm/PhraseForm';
 import AudioList from './components/AudioList/AudioList';
-import IDialog from '../../components/Dialog/Dialog';
+import Dialog from '../../components/Dialog/Dialog';
 import { IPaginationResponse } from '../../shared/interfaces/pagination.interfaces';
 import { ITextToSpeech } from '../../shared/interfaces/textToSpeech.interfaces';
 import SpinnerLoading from '../../components/Loaders/SpinnerLoading/SpinnerLoading';
@@ -59,13 +59,13 @@ const TextToSpeech = () => {
             <div>{audioSelected && <AudioDetail data={audioSelected} />}</div>
           </div>
 
-          <IDialog
+          <Dialog
             title="Nuevo audio"
             isOpen={createIsOpen}
             hideModal={() => setCreateIsOpen(false)}
           >
             <PhraseForm onSubmit={handleSubmitForm} />
-          </IDialog>
+          </Dialog>
         </>
       )}
     </div>
