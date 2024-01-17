@@ -5,7 +5,7 @@ import React, { SyntheticEvent } from 'react';
 import { FaTimes } from 'react-icons/fa';
 
 import styles from './dialog.module.scss';
-import TextButton from '../Buttons/TextButton/TextButton';
+import IconButton from '../Buttons/IconButton/IconButton';
 
 interface IDialog {
   title?: string;
@@ -36,9 +36,9 @@ const Dialog = (props: IDialog) => {
           <div>{title && <h4 className={styles.dialogTitle}>{title}</h4>}</div>
 
           {hideModal && (
-            <TextButton onClick={hideModal}>
+            <IconButton onClick={hideModal}>
               <FaTimes size={16} />
-            </TextButton>
+            </IconButton>
           )}
         </div>
         <div className={styles.dialogBody}>{children}</div>

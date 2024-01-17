@@ -47,8 +47,8 @@
 
   padding: 10px 15px;
 
-  background-color: #f1f0f00d;
-  border: 1px solid #f1f0f0;
+  background-color: var(--blue-bayoux-950);
+  border: 1px solid var(--blue-bayoux-600);
   border-radius: 10px;
 
   margin-bottom: 10px;
@@ -67,15 +67,15 @@
 }
 
 .bubbleLeft {
-  border: 2px solid #299dfe;
-  background-color: #f7fbffdb;
+  border: 2px solid var(--blue-bayoux-600);
+  background-color: var(--blue-bayoux-50);
 
   border-bottom-right-radius: initial;
 }
 
 .bubbleRight {
-  background-color: #edfff5;
-  border: 2px solid #0dc05c;
+  border: 2px solid var(--mulled-wine-800);
+  background-color: var(--mulled-wine-50);
 
   align-self: flex-end;
   border-bottom-left-radius: initial;
@@ -108,24 +108,13 @@
   flex-grow: 1;
 
   border-radius: 5px;
-  border: 1px solid #f1f0f0;
+  background-color: var(--blue-bayoux-950);
+  border: 1px solid var(--blue-bayoux-600);
+
   padding: 10px;
 
-  background-color: #f1f0f00d;
-}
-
-.messageInput:focus {
-  outline: none;
-  background-color: rgba(255, 255, 255, 0.215);
-}
-
-.messageButton {
-  width: 50px;
-
-  border-radius: 5px;
-  border: 1px solid #f1f0f0;
-  padding: 10px;
-
-  background-color: #299dfe;
-  color: white;
+  &:focus {
+    outline: none;
+    background-color: var(--blue-bayoux-900);
+  }
 }

@@ -1,20 +1,32 @@
 .textButton {
-  display: inline-flex;
+  padding: 10px 15px;
 
-  padding: 7px;
-
-  border: none;
-  border-radius: 50%;
+  border: solid 1px var(--blue-bayoux-500);
+  border-radius: 10px;
 
   background-color: transparent;
+  color: var(--blue-bayoux-100);
 
-  color: #052801;
-  font-size: 1.2rem;
-  font-weight: 600;
+  font-size: 1rem;
 
   cursor: pointer;
 
   &:hover {
-    background-color: #13462328;
+    border-color: var(--blue-bayoux-400);
+    background-color: #ffffff06;
+  }
+
+  &:active {
+    border-color: var(--blue-bayoux-400);
+    background-color: #ffffff0c;
+  }
+
+  &:disabled {
+    cursor: auto;
+    color: var(--text-primary-disabled);
+
+    &:hover {
+      background-color: transparent;
+    }
   }
 }

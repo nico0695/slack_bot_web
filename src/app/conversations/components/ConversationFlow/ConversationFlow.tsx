@@ -10,6 +10,7 @@ import {
   RoleTypes,
 } from './interfaces/conversation.interfaces';
 import { useConversationsStore } from '../../../../store/useConversationsStore';
+import PrimaryButton from '../../../../components/Buttons/PrimaryButton/PrimaryButton';
 
 interface IConversationFlow {
   socket: Socket;
@@ -144,13 +145,7 @@ const ConversationFlow = (props: IConversationFlow) => {
             onChange={(e) => setMessage(e.target.value)}
             className={styles.messageInput}
           />
-          <button
-            className={styles.messageButton}
-            type="submit"
-            disabled={!socket}
-          >
-            {'>'}
-          </button>
+          <PrimaryButton label=">" type="submit" disabled={!socket} />
         </form>
       </div>
     </div>
