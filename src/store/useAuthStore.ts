@@ -24,6 +24,8 @@ export interface IUserStoreHook extends IUserStore {
     email: string;
     password: string;
   }) => Promise<{ status: boolean; message?: string }>;
+
+  validateSupabaseAuth: () => Promise<boolean>;
 }
 
 const initialState: IUserStore = {
@@ -33,7 +35,7 @@ const initialState: IUserStore = {
 
 export const useAuthStore = create<IUserStoreHook>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       username: initialState.username,
       email: initialState.email,
 
@@ -72,6 +74,29 @@ export const useAuthStore = create<IUserStoreHook>()(
         return {
           status: true,
         };
+      },
+
+      validateSupabaseAuth: async (): Promise<boolean> => {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+
+        if (!session) return false;
+
+        const auth = get().auth;
+
+        if (auth?.token !== session?.access_token) {
+          set({
+            auth: {
+              token: session?.access_token || '',
+              refresh_token: session?.refresh_token || '',
+            },
+          });
+
+          saveAuthData(auth?.userId || '', session?.access_token || '');
+        }
+
+        return true;
       },
     }),
     {

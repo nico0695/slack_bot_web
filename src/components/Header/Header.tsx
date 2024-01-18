@@ -1,13 +1,11 @@
-'use client';
-
 import React from 'react';
 import Link from 'next/link';
 
-import 'react-toastify/dist/ReactToastify.css';
-
 import styles from './header.module.scss';
-import { ToastContainer } from 'react-toastify';
-import { useAuthStore } from '../../store/useAuthStore';
+
+import { cookies } from 'next/headers';
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
+import ValidationHeader from './components/ValidationHeader/ValidationHeader';
 
 const links = [
   {
@@ -32,24 +30,16 @@ const links = [
   },
 ];
 
-const Header = () => {
-  const { username } = useAuthStore();
+const Header = async () => {
+  const cookieStore = cookies();
+  const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
+
+  const userLogged = await supabase.auth.getUser();
+  const username = userLogged?.data.user?.email?.split('@')[0] ?? '';
 
   return (
     <header className={styles.header}>
-      <ToastContainer
-        position="top-center"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
-
+      <ValidationHeader />
       <nav>
         <ul className={styles.navigation}>
           {links.map(({ label, route }) => (
@@ -59,7 +49,8 @@ const Header = () => {
           ))}
         </ul>
       </nav>
-      <div className={styles.navItems}>{username}</div>
+
+      {username && <div className={styles.navItems}>{username}</div>}
     </header>
   );
 };

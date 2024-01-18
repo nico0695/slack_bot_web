@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useEffect, useRef, useState } from 'react';
 import { Socket } from 'socket.io-client';
 
@@ -101,18 +102,18 @@ const ConversationFlow = (props: IConversationFlow) => {
     }
   };
 
-  console.log('data= ', conversation);
-
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <div>{`usuario: ${username}`}</div>
-        <div
-          className={styles.checkContainer}
-          onClick={() => setIaEnabled((prev) => !prev)}
-        >
+        <div className={styles.checkContainer}>
           <label htmlFor="iaEnabled">Activar ia</label>
-          <input name="iaEnabled" type="checkbox" checked={iaEnabled} />
+          <input
+            name="iaEnabled"
+            type="checkbox"
+            checked={iaEnabled}
+            onChange={() => setIaEnabled((prev) => !prev)}
+          />
         </div>
         <button className={styles.headerButton} onClick={handleCloseChannel}>
           Cerrar canal

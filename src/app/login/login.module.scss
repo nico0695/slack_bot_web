@@ -1,0 +1,65 @@
+.formSection {
+  border: 1px solid var(--blue-bayoux-600);
+  border-radius: 20px;
+
+  width: 100%;
+  max-width: fit-content;
+
+  margin: 40px auto;
+
+  padding: 20px 60px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.labeldInput {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+
+  position: relative;
+
+  width: 90vw;
+  max-width: 300px;
+
+  margin-bottom: 10px;
+  padding-bottom: 20px;
+
+  label {
+    margin-bottom: 10px;
+  }
+
+  input {
+    width: 100%;
+
+    border-radius: 5px;
+    background-color: var(--blue-bayoux-950);
+    border: 1px solid var(--blue-bayoux-600);
+
+    padding: 10px;
+
+    &:focus {
+      outline: none;
+      background-color: var(--blue-bayoux-900);
+    }
+  }
+
+  small {
+    position: absolute;
+    bottom: 2px;
+
+    font-size: 0.75em;
+    color: var(--error-color);
+  }
+}
+
+.footerForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  padding: 10px 0;
+  margin-bottom: 20px;
+}
