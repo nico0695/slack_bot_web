@@ -6,13 +6,13 @@ import styles from './textToSpeech.module.scss';
 
 import PhraseForm from './components/PhraseForm/PhraseForm';
 import AudioList from './components/AudioList/AudioList';
-import Dialog from '../../components/Dialog/Dialog';
-import { IPaginationResponse } from '../../shared/interfaces/pagination.interfaces';
-import { ITextToSpeech } from '../../shared/interfaces/textToSpeech.interfaces';
-import SpinnerLoading from '../../components/Loaders/SpinnerLoading/SpinnerLoading';
-import { getTextToSpeech } from '../../services/textToSpeech/textToSpeech.service';
+import Dialog from '../../../components/Dialog/Dialog';
+import { IPaginationResponse } from '../../../shared/interfaces/pagination.interfaces';
+import { ITextToSpeech } from '../../../shared/interfaces/textToSpeech.interfaces';
+import SpinnerLoading from '../../../components/Loaders/SpinnerLoading/SpinnerLoading';
+import { getTextToSpeech } from '../../../services/textToSpeech/textToSpeech.service';
 import AudioDetail from './components/AudioDetail/AudioDetail';
-import PrimaryButton from '../../components/Buttons/PrimaryButton/PrimaryButton';
+import PrimaryButton from '../../../components/Buttons/PrimaryButton/PrimaryButton';
 
 const TextToSpeech = () => {
   const [createIsOpen, setCreateIsOpen] = useState(false);

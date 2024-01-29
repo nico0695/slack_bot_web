@@ -3,15 +3,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Socket } from 'socket.io-client';
 
-import apiConfig from '../../../config/apiConfig';
+import apiConfig from '../../../../config/apiConfig';
 
 import styles from './conversationFlow.module.scss';
 import {
   IUserConversation,
   RoleTypes,
 } from './interfaces/conversation.interfaces';
-import { useConversationsStore } from '../../../../store/useConversationsStore';
-import PrimaryButton from '../../../../components/Buttons/PrimaryButton/PrimaryButton';
+import { useConversationsStore } from '../../../../../store/useConversationsStore';
+import PrimaryButton from '../../../../../components/Buttons/PrimaryButton/PrimaryButton';
 
 interface IConversationFlow {
   socket: Socket;
@@ -52,7 +52,7 @@ const ConversationFlow = (props: IConversationFlow) => {
     });
   }, [socket]);
 
-  // Scroll to the bottom of the conversation
+  // Scroll to the end of the conversation
   useEffect(() => {
     conversationRef?.current?.scrollTo({
       top: conversationRef?.current?.scrollHeight,

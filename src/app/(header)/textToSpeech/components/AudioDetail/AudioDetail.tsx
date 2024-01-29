@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react';
 
 import styles from './audioDetail.module.scss';
 
-import { ITextToSpeech } from '../../../../shared/interfaces/textToSpeech.interfaces';
-import { useToggle } from '../../../../shared/hooks/useToggle/useToggle';
-import { getUrlAudioById } from '../../../../services/textToSpeech/textToSpeech.service';
+import { ITextToSpeech } from '../../../../../shared/interfaces/textToSpeech.interfaces';
+import { useToggle } from '../../../../../shared/hooks/useToggle/useToggle';
+import { getUrlAudioById } from '../../../../../services/textToSpeech/textToSpeech.service';
 
 const AudioDetail = ({ data }: { data: ITextToSpeech }) => {
   const [audioSrc, setAudioSrc] = useState<string>();

@@ -51,10 +51,15 @@ export const useAuthStore = create<IUserStoreHook>()(
           await supabase.auth.signInWithPassword(data);
 
         if (error || !responseData) {
-          console.error(error);
+          const messageTraduction: { [key: string]: string } = {
+            ['Email not confirmed']: 'Email no verificado',
+            ['Invalid login credentials']: 'Credenciales inválidas',
+          };
+
           return {
             status: false,
-            message: error?.message || 'Something went wrong',
+            message:
+              messageTraduction[error?.message ?? ''] ?? 'Something went wrong',
           };
         }
 

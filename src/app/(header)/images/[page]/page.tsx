@@ -2,12 +2,12 @@ import { Suspense } from 'react';
 
 import Image from 'next/image';
 
-import apiConfig from '../../config/apiConfig';
+import apiConfig from '../../../config/apiConfig';
 
-import { IImages } from '../../../shared/interfaces/images.interfaces';
-import { IPaginationResponse } from '../../../shared/interfaces/pagination.interfaces';
+import { IImages } from '../../../../shared/interfaces/images.interfaces';
+import { IPaginationResponse } from '../../../../shared/interfaces/pagination.interfaces';
 
-import { getRequest } from '../../../shared/utils/api/serverFetch.utils';
+import { getRequest } from '../../../../shared/utils/api/serverFetch.utils';
 
 import styles from './images.module.scss';
 

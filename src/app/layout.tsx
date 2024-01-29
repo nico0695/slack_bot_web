@@ -1,8 +1,8 @@
 import { Inter } from 'next/font/google';
 
-import Header from '../components/Header/Header';
-
 import '../styles/globals.scss';
+
+import ValidationHeader from '../components/Header/components/ValidationHeader/ValidationHeader';
 
 const inter = Inter({
   weight: ['200', '400', '500', '600', '700', '900'],
@@ -22,9 +22,8 @@ export default function RootLayout({
       <head />
 
       <body>
-        <Header />
-
-        <div className="main-container">{children}</div>
+        <ValidationHeader />
+        {children}
       </body>
     </html>
   );

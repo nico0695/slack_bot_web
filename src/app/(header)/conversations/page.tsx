@@ -7,10 +7,10 @@ import styles from './conversations.module.scss';
 import ConversationFlow from './components/ConversationFlow/ConversationFlow';
 import ChannelList from './components/ChannelList/ChannelList';
 
-import { useConversationsStore } from '../../store/useConversationsStore';
-import { useAuthStore } from '../../store/useAuthStore';
+import { useConversationsStore } from '../../../store/useConversationsStore';
+import { useAuthStore } from '../../../store/useAuthStore';
 import UserLogin from './components/UserLogin/UserLogin';
-import apiConfig from '../config/apiConfig';
+import apiConfig from '../../config/apiConfig';
 
 enum ConversatoionStates {
   DISCONNECTED = 'DISCONNECTED',

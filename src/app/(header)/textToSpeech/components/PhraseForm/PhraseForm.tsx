@@ -3,11 +3,11 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 
-import apiConfig from '../../../config/apiConfig';
+import apiConfig from '../../../../config/apiConfig';
 
 import styles from './phraseForm.module.scss';
-import { useToggle } from '../../../../shared/hooks/useToggle/useToggle';
-import PrimaryButton from '../../../../components/Buttons/PrimaryButton/PrimaryButton';
+import { useToggle } from '../../../../../shared/hooks/useToggle/useToggle';
+import PrimaryButton from '../../../../../components/Buttons/PrimaryButton/PrimaryButton';
 
 interface IPhraseFormProps {
   onSubmit: (isSuccess: boolean) => void;
@@ -31,7 +31,7 @@ const PhraseForm = (props: IPhraseFormProps) => {
 
       startLoading();
 
-      const res = await fetch(`${apiConfig.BASE_URL}/text-to-speech/generate`, {
+      await fetch(`${apiConfig.BASE_URL}/text-to-speech/generate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -41,7 +41,6 @@ const PhraseForm = (props: IPhraseFormProps) => {
         }),
       });
 
-      console.log('res= ', res);
       toast('Se genero el audio correctamente');
 
       if (onSubmit) {

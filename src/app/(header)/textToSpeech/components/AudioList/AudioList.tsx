@@ -2,8 +2,8 @@
 
 import React from 'react';
 
-import { IPaginationResponse } from '../../../../shared/interfaces/pagination.interfaces';
-import { ITextToSpeech } from '../../../../shared/interfaces/textToSpeech.interfaces';
+import { IPaginationResponse } from '../../../../../shared/interfaces/pagination.interfaces';
+import { ITextToSpeech } from '../../../../../shared/interfaces/textToSpeech.interfaces';
 
 import styles from './audioList.module.scss';
 

@@ -5,7 +5,6 @@ import styles from './header.module.scss';
 
 import { cookies } from 'next/headers';
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-import ValidationHeader from './components/ValidationHeader/ValidationHeader';
 
 const links = [
   {
@@ -39,13 +38,12 @@ const Header = async () => {
 
   return (
     <header className={styles.header}>
-      <ValidationHeader />
       <nav>
         <ul className={styles.navigation}>
           {links.map(({ label, route }) => (
-            <li className={styles.navItems} key={route}>
-              <Link href={route}>{label}</Link>
-            </li>
+            <Link href={route} key={route}>
+              <li className={styles.navItems}>{label}</li>
+            </Link>
           ))}
         </ul>
       </nav>

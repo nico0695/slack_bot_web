@@ -4,9 +4,9 @@ import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 
-import { useAuthStore } from '../../store/useAuthStore';
+import { supabase } from '../../store/useAuthStore';
 
-import styles from './login.module.scss';
+import styles from './register.module.scss';
 import PrimaryButton from '../../components/Buttons/PrimaryButton/PrimaryButton';
 import TextButton from '../../components/Buttons/TextButton/TextButton';
 import { validationMessages } from '../../shared/constants/form.constants';
@@ -18,12 +18,10 @@ interface ILoginForm {
   password: string;
 }
 
-export default function Login() {
+export default function Register() {
   const [isLoading, , startLoading, stopLoading] = useToggle();
 
   const { push } = useRouter();
-
-  const { loginSupabase } = useAuthStore();
 
   const handleValidate = (values: ILoginForm) => {
     const errors: Partial<ILoginForm> = {};
@@ -45,16 +43,34 @@ export default function Login() {
 
   const handleSubmit = async (values: ILoginForm) => {
     startLoading();
+    try {
+      const { data } = await supabase.auth.signUp({
+        email: values.email,
+        password: values.password,
+        options: {
+          emailRedirectTo: `${location.origin}/`,
+        },
+      });
 
-    const response = await loginSupabase(values);
-
-    if (!response.status) {
-      toast.error(response.message);
       stopLoading();
-      return;
-    }
 
-    push('/');
+      if (data) {
+        toast.success(
+          'Se registro correctamente, Se ha enviado un mail de confirmación'
+        );
+
+        formik.resetForm();
+
+        setTimeout(() => {
+          push('/login');
+        }, 3000);
+        return;
+      }
+
+      toast.error('Error al registrarse');
+    } catch (error) {
+      toast.error('Error al registrarse');
+    }
   };
 
   const formik = useFormik({
@@ -68,7 +84,7 @@ export default function Login() {
 
   return (
     <div className={styles.formSection}>
-      <h1>Iniciar sesión</h1>
+      <h1>Registrarse</h1>
 
       <form onSubmit={formik.handleSubmit} noValidate>
         <LabeledInput
@@ -90,14 +106,18 @@ export default function Login() {
         />
 
         <div className={styles.footerForm}>
-          <PrimaryButton label="Ingresar" type="submit" loading={isLoading} />
+          <PrimaryButton
+            label="Registrarse"
+            type="submit"
+            loading={isLoading}
+          />
 
           <TextButton
-            label="Registrarse"
+            label="Ingresar"
             type="submit"
             onClick={(e) => {
               e.preventDefault();
-              push('/register');
+              push('/login');
             }}
           />
         </div>

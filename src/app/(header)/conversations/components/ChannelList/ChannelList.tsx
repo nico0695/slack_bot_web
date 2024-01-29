@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from 'react';
 
 import styles from './channelList.module.scss';
-import { useConversationsStore } from '../../../../store/useConversationsStore';
-import PrimaryButton from '../../../../components/Buttons/PrimaryButton/PrimaryButton';
-import Dialog from '../../../../components/Dialog/Dialog';
+import { useConversationsStore } from '../../../../../store/useConversationsStore';
+import PrimaryButton from '../../../../../components/Buttons/PrimaryButton/PrimaryButton';
+import Dialog from '../../../../../components/Dialog/Dialog';
 
 const ChannelList = () => {
   const [newChannelIsOpen, setNewChannelIsOpen] = useState(false);
