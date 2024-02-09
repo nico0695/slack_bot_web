@@ -2,10 +2,10 @@
 
 import React from 'react';
 
-import { IPaginationResponse } from '../../../../../shared/interfaces/pagination.interfaces';
-import { ITextToSpeech } from '../../../../../shared/interfaces/textToSpeech.interfaces';
+import { IPaginationResponse } from '@interfaces/pagination.interfaces';
+import { ITextToSpeech } from '@interfaces/textToSpeech.interfaces';
 
-import styles from './audioList.module.scss';
+import styles from '@styles/table.module.scss';
 
 import { FaHeadphones } from 'react-icons/fa';
 

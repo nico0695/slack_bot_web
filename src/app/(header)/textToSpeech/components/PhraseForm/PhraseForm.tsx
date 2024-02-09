@@ -3,11 +3,10 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 
-import apiConfig from '../../../../config/apiConfig';
-
 import styles from './phraseForm.module.scss';
 import { useToggle } from '../../../../../shared/hooks/useToggle/useToggle';
 import PrimaryButton from '../../../../../components/Buttons/PrimaryButton/PrimaryButton';
+import { createTextToSpeech } from '@services/textToSpeech/textToSpeech.service';
 
 interface IPhraseFormProps {
   onSubmit: (isSuccess: boolean) => void;
@@ -21,38 +20,31 @@ const PhraseForm = (props: IPhraseFormProps) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    try {
-      const phrase = event.currentTarget.phrase.value;
+    const phrase = event.currentTarget.phrase.value;
 
-      if (!phrase) {
-        toast.error('Ingrese una frase');
-        return;
-      }
-
-      startLoading();
-
-      await fetch(`${apiConfig.BASE_URL}/text-to-speech/generate`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          phrase: event.currentTarget.phrase.value,
-        }),
-      });
-
-      toast('Se genero el audio correctamente');
-
-      if (onSubmit) {
-        onSubmit(true);
-      }
-
-      event.currentTarget.reset();
-    } catch (error) {
-      console.log('error= ', error);
+    if (!phrase) {
+      toast.error('Ingrese una frase');
+      return;
     }
 
+    startLoading();
+
+    const response = await createTextToSpeech(phrase);
+
     stopLoading();
+
+    if (!response) {
+      toast.error('Error al generar el audio');
+      return;
+    }
+
+    toast('Se genero el audio correctamente');
+
+    if (onSubmit) {
+      onSubmit(true);
+    }
+
+    event.currentTarget.reset();
   };
 
   return (
@@ -71,6 +63,7 @@ const PhraseForm = (props: IPhraseFormProps) => {
             rows={5}
             autoFocus
             placeholder="Hi, my name is John Doe."
+            disabled={isLoading}
           ></textarea>
         </div>
 

@@ -80,6 +80,20 @@ export const getRequest = async <T>(url: string): Promise<IApiResponse<T>> => {
   return fetchData<T>(config);
 };
 
+export const getBlobRequest = async (url: string): Promise<Response> => {
+  const authData = getAuthData();
+
+  const res = await fetch(url, {
+    headers: {
+      method: 'GET',
+      'Content-Type': 'audio/wav',
+      Authorization: `Bearer ${authData.token}`,
+    },
+  });
+
+  return res;
+};
+
 // Function for POST requests
 export const postRequest = async <T>(
   url: string,

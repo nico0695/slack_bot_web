@@ -27,6 +27,10 @@ const links = [
     label: 'Generar Audio',
     route: '/textToSpeech',
   },
+  {
+    label: 'Users',
+    route: '/admin/users',
+  },
 ];
 
 const Header = async () => {

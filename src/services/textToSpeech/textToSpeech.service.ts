@@ -2,7 +2,11 @@ import apiConfig from '../../app/config/apiConfig';
 import { IPaginationResponse } from '../../shared/interfaces/pagination.interfaces';
 
 import { ITextToSpeech } from '../../shared/interfaces/textToSpeech.interfaces';
-import { getRequest } from '../../shared/utils/api/fetch.utils';
+import {
+  getBlobRequest,
+  getRequest,
+  postRequest,
+} from '../../shared/utils/api/fetch.utils';
 
 export const getTextToSpeech = async (
   pageNumber: number
@@ -31,14 +35,8 @@ export const getUrlAudioById = async (
   audioId: number
 ): Promise<string | null> => {
   try {
-    const res = await fetch(
-      `${apiConfig.BASE_URL}/text-to-speech/${audioId}/audio`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'audio/wav',
-        },
-      }
+    const res = await getBlobRequest(
+      `${apiConfig.BASE_URL}/text-to-speech/${audioId}/audio`
     );
 
     const blob = await res.blob();
@@ -47,8 +45,18 @@ export const getUrlAudioById = async (
 
     return url;
   } catch (err) {
-    console.log('catch= ', err);
-
     return null;
+  }
+};
+
+export const createTextToSpeech = async (phrase: string): Promise<boolean> => {
+  try {
+    await postRequest(`${apiConfig.BASE_URL}/text-to-speech/generate`, {
+      phrase,
+    });
+
+    return true;
+  } catch (err) {
+    return false;
   }
 };

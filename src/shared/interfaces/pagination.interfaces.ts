@@ -4,3 +4,8 @@ export interface IPaginationResponse<T> {
   pageSize: number;
   count: number;
 }
+
+export interface IPaginationOptions {
+  page: number;
+  pageSize?: number;
+}
