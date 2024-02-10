@@ -2,9 +2,9 @@ import React from 'react';
 
 import { CgSpinnerTwoAlt } from 'react-icons/cg';
 
-import styles from './spinnerLoading.module.scss';
+import styles from './fullSpinnerLoading.module.scss';
 
-const SpinnerLoading = () => {
+const FullSpinnerLoading = () => {
   return (
     <div className={styles.loadingContainer}>
       <CgSpinnerTwoAlt className={styles.spinner} />
@@ -12,4 +12,4 @@ const SpinnerLoading = () => {
   );
 };
 
-export default SpinnerLoading;
+export default FullSpinnerLoading;

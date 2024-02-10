@@ -1,3 +1,5 @@
+import { Profiles } from '../constants/users.constants';
+
 export interface IUsers {
   id?: number;
   username: string;
@@ -11,4 +13,13 @@ export interface IUsers {
   slackTeamId?: string;
 
   supabaseId?: string;
+
+  profile: Profiles;
 }
+
+export type UserFormOmitedFields =
+  | 'id'
+  | 'createdAt'
+  | 'supabaseId'
+  | 'slackId'
+  | 'slackTeamId';

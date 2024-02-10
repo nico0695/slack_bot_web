@@ -4,12 +4,14 @@ import React, { useEffect, useState } from 'react';
 
 import styles from './textToSpeech.module.scss';
 
+import { LightSpinnerLoading } from '@components/Loaders';
+
 import PhraseForm from './components/PhraseForm/PhraseForm';
 import AudioList from './components/AudioList/AudioList';
 import Dialog from '../../../components/Dialog/Dialog';
 import { IPaginationResponse } from '../../../shared/interfaces/pagination.interfaces';
 import { ITextToSpeech } from '../../../shared/interfaces/textToSpeech.interfaces';
-import SpinnerLoading from '../../../components/Loaders/SpinnerLoading/SpinnerLoading';
+
 import { getTextToSpeech } from '../../../services/textToSpeech/textToSpeech.service';
 import AudioDetail from './components/AudioDetail/AudioDetail';
 import PrimaryButton from '../../../components/Buttons/PrimaryButton/PrimaryButton';
@@ -44,7 +46,7 @@ const TextToSpeech = () => {
     <div>
       <h4 className={styles.title}>Texto a voz</h4>
 
-      {!audioList && <SpinnerLoading />}
+      {!audioList && <LightSpinnerLoading />}
 
       {audioList && (
         <>

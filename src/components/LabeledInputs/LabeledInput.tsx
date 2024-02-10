@@ -9,12 +9,14 @@ interface ILabeledInputsProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string | null;
 
+  disabled?: boolean;
+
   type?: string;
   name: string;
 }
 
 const LabeledInput = (props: ILabeledInputsProps) => {
-  const { label, type, name, value, onChange } = props;
+  const { label, type, name, value, onChange, disabled } = props;
 
   return (
     <div className={styles.labeldInput}>
@@ -27,6 +29,7 @@ const LabeledInput = (props: ILabeledInputsProps) => {
         value={value}
         onChange={onChange}
         autoFocus
+        disabled={disabled}
       />
 
       {props?.error && <small>{props?.error}</small>}

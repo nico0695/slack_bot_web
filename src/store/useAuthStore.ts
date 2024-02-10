@@ -3,6 +3,8 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { saveAuthData } from '../shared/utils/localStorage/auth.utils';
+import { getUserMe } from '@services/users/users.client-service';
+import { IUsers } from '@interfaces/users.interfaces';
 
 export const supabase = createClientComponentClient();
 
@@ -15,6 +17,7 @@ export interface IUserStore {
     expires_at?: number;
     refresh_token: string;
   };
+  data?: IUsers;
 }
 
 export interface IUserStoreHook extends IUserStore {
@@ -75,6 +78,10 @@ export const useAuthStore = create<IUserStoreHook>()(
         });
 
         saveAuthData(responseData.user.id, responseData.session.access_token);
+
+        const userData = await getUserMe();
+
+        set({ data: userData });
 
         return {
           status: true,

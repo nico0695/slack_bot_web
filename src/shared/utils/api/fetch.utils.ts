@@ -8,6 +8,7 @@ import axios, {
 import apiConfig from '../../../app/config/apiConfig';
 
 import { getAuthData } from '../localStorage/auth.utils';
+import { toast } from 'react-toastify';
 
 export interface IApiResponse<T> {
   data?: T;
@@ -31,6 +32,10 @@ axiosInstance.interceptors.response.use(
     // Redirect to login page if the user is unauthorized
     if (error.response?.status === 401) {
       window.location.href = '/';
+    }
+
+    if (error.response?.status === 403) {
+      toast.error('Error de autenticación');
     }
 
     return Promise.reject(error.message);

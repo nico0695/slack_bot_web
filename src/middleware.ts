@@ -11,7 +11,7 @@ export async function middleware(req: NextRequest) {
     data: { session },
   } = await supabase.auth.getSession();
 
-  // if user is not signed in redirect the user to /auth/login
+  // if user is not signed in redirect the user to /login
   if (!session) {
     return NextResponse.redirect(new URL('/login', req.url));
   }
@@ -20,5 +20,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/images/(.*)', '/textToSpeech'],
+  matcher: ['/images/(.*)', '/textToSpeech', '/admin/(.*)'],
 };

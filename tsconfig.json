@@ -25,7 +25,7 @@
       "@components/*": ["./src/components/*"],
       "@services/*": ["./src/services/*"],
 
-      "@constans/*": ["./src/shared/constans/*"],
+      "@constants/*": ["./src/shared/constants/*"],
       "@interfaces/*": ["./src/shared/interfaces/*"],
       "@hooks/*": ["./src/shared/hooks/*"],
       "@styles/*": ["./src/shared/styles/*"],
