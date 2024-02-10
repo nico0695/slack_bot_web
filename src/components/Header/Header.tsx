@@ -5,33 +5,8 @@ import styles from './header.module.scss';
 
 import { cookies } from 'next/headers';
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-
-const links = [
-  {
-    label: 'Home',
-    route: '/',
-  },
-  // {
-  //   label: 'Constants',
-  //   route: '/globalConstants',
-  // },
-  {
-    label: 'Conversaciones',
-    route: '/conversations',
-  },
-  {
-    label: 'Imagenes',
-    route: '/images/1',
-  },
-  {
-    label: 'Generar Audio',
-    route: '/textToSpeech',
-  },
-  {
-    label: 'Users',
-    route: '/admin/users',
-  },
-];
+import { links } from './constants/navLink.constants';
+import MyProfile from './components/MyProfile/MyProfile';
 
 const Header = async () => {
   const cookieStore = cookies();
@@ -44,15 +19,23 @@ const Header = async () => {
     <header className={styles.header}>
       <nav>
         <ul className={styles.navigation}>
-          {links.map(({ label, route }) => (
-            <Link href={route} key={route}>
-              <li className={styles.navItems}>{label}</li>
+          {links
+            .filter(({ authenticated }) => !authenticated || username)
+            .map(({ label, route }) => (
+              <Link href={route} key={route}>
+                <li className={styles.navItems}>{label}</li>
+              </Link>
+            ))}
+
+          {!username && (
+            <Link href={'/login'}>
+              <li className={styles.navItems}>{'Login'}</li>
             </Link>
-          ))}
+          )}
         </ul>
       </nav>
 
-      {username && <div className={styles.navItems}>{username}</div>}
+      {username && <MyProfile username={username} />}
     </header>
   );
 };

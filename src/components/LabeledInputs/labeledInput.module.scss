@@ -21,6 +21,14 @@
     border-radius: 5px;
     background-color: var(--blue-bayoux-950);
     border: 1px solid var(--blue-bayoux-600);
+    font-size: 0.9em;
+
+    &:global(.light) {
+      background-color: var(--blue-bayoux-200);
+      border: 1px solid var(--blue-bayoux-600);
+
+      color: var(--blue-bayoux-950);
+    }
 
     padding: 10px;
 

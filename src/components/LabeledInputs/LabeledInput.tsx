@@ -5,18 +5,20 @@ import styles from './labeledInput.module.scss';
 interface ILabeledInputsProps {
   label?: string;
 
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value: string | number;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string | null;
 
   disabled?: boolean;
 
   type?: string;
   name: string;
+
+  light?: boolean;
 }
 
 const LabeledInput = (props: ILabeledInputsProps) => {
-  const { label, type, name, value, onChange, disabled } = props;
+  const { label, type, name, value, onChange, disabled, light } = props;
 
   return (
     <div className={styles.labeldInput}>
@@ -27,9 +29,10 @@ const LabeledInput = (props: ILabeledInputsProps) => {
         id={name}
         name={name}
         value={value}
-        onChange={onChange}
+        onChange={onChange ?? (() => null)}
         autoFocus
         disabled={disabled}
+        className={light ? 'light' : ''}
       />
 
       {props?.error && <small>{props?.error}</small>}
