@@ -5,7 +5,7 @@ import axios, {
   isAxiosError,
 } from 'axios';
 
-import apiConfig from '../../../app/config/apiConfig';
+import apiConfig from '../../../config/apiConfig';
 
 import { getAuthData } from '../localStorage/auth.utils';
 import { toast } from 'react-toastify';

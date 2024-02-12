@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 
 import Image from 'next/image';
 
-import apiConfig from '../../../config/apiConfig';
+import apiConfig from '../../../../config/apiConfig';
 
 import { IImages } from '../../../../shared/interfaces/images.interfaces';
 import { IPaginationResponse } from '../../../../shared/interfaces/pagination.interfaces';

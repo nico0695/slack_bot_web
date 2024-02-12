@@ -8,7 +8,7 @@ import axios, {
   isAxiosError,
 } from 'axios';
 
-import apiConfig from '../../../app/config/apiConfig';
+import apiConfig from '../../../config/apiConfig';
 
 export interface IApiResponse<T> {
   data?: T;

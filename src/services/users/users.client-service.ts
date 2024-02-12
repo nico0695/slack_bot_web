@@ -1,4 +1,4 @@
-import apiConfig from '@app/config/apiConfig';
+import apiConfig from '../../config/apiConfig';
 
 import { IUsers } from '@interfaces/users.interfaces';
 

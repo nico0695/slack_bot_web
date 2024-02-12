@@ -1,6 +1,5 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Socket, io } from 'socket.io-client';
 
 import styles from './conversations.module.scss';
 
@@ -10,7 +9,7 @@ import ChannelList from './components/ChannelList/ChannelList';
 import { useConversationsStore } from '../../../store/useConversationsStore';
 import { useAuthStore } from '../../../store/useAuthStore';
 import UserLogin from './components/UserLogin/UserLogin';
-import apiConfig from '../../config/apiConfig';
+import { socket } from '@utils/api/socket';
 
 enum ConversatoionStates {
   DISCONNECTED = 'DISCONNECTED',
@@ -25,38 +24,31 @@ const Conversations = () => {
     username ? ConversatoionStates.CONNECTING : ConversatoionStates.DISCONNECTED
   );
 
-  const [socketInstance, setSocketInstance] = useState<Socket>();
-
   const channelSelected = useConversationsStore(
     (state) => state.channelSelected
   );
 
   useEffect(() => {
     if (username) {
-      setConversationState(ConversatoionStates.CONNECTING);
-      const socket = io(apiConfig.BASE_URL);
-
-      setSocketInstance(socket);
-
-      socket.on('connect', () => {
+      if (socket.connected) {
         setConversationState(ConversatoionStates.CONNECTED);
-        console.log('socket id: ', socket.id);
-      });
+      } else {
+        socket.on('connect', () => {
+          setConversationState(ConversatoionStates.CONNECTED);
+          console.log('socket id: ', socket.id);
+        });
 
-      socket.on('connect_error', () => {
-        setTimeout(() => socket.connect(), 5000);
-      });
+        socket.on('connect_error', () => {
+          setTimeout(() => socket.connect(), 5000);
+        });
 
-      socket.on('disconnect', () => console.log('socket disconnected'));
-
-      return () => {
-        socket.disconnect();
-      };
+        socket.on('disconnect', () => console.log('socket disconnected'));
+      }
     }
   }, [username]);
 
   const joinRoom = (channel: string) => {
-    socketInstance?.emit('join_room', { username, channel });
+    socket?.emit('join_room', { username, channel });
   };
 
   useEffect(() => {
@@ -82,12 +74,8 @@ const Conversations = () => {
         <div className={styles.container}>
           <ChannelList />
 
-          {channelSelected && socketInstance && (
-            <ConversationFlow
-              socket={socketInstance}
-              username={username}
-              channel={channelSelected}
-            />
+          {channelSelected && (
+            <ConversationFlow username={username} channel={channelSelected} />
           )}
         </div>
       )}

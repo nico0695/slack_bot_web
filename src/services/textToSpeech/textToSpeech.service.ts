@@ -1,4 +1,4 @@
-import apiConfig from '../../app/config/apiConfig';
+import apiConfig from '../../config/apiConfig';
 import { IPaginationResponse } from '../../shared/interfaces/pagination.interfaces';
 
 import { ITextToSpeech } from '../../shared/interfaces/textToSpeech.interfaces';

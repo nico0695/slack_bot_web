@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { Socket } from 'socket.io-client';
 
-import apiConfig from '../../../../config/apiConfig';
+import apiConfig from '../../../../../config/apiConfig';
+
+import { socket } from '@utils/api/socket';
 
 import styles from './conversationFlow.module.scss';
 import {
@@ -14,14 +15,12 @@ import { useConversationsStore } from '../../../../../store/useConversationsStor
 import PrimaryButton from '../../../../../components/Buttons/PrimaryButton/PrimaryButton';
 
 interface IConversationFlow {
-  socket: Socket;
-
   username: string;
   channel: string;
 }
 
 const ConversationFlow = (props: IConversationFlow) => {
-  const { socket, username, channel } = props;
+  const { username, channel } = props;
 
   // State to store the current message
   const [message, setMessage] = useState('');
