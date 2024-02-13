@@ -31,7 +31,8 @@
       "@interfaces/*": ["./src/shared/interfaces/*"],
       "@hooks/*": ["./src/shared/hooks/*"],
       "@styles/*": ["./src/shared/styles/*"],
-      "@utils/*": ["./src/shared/utils/*"]
+      "@utils/*": ["./src/shared/utils/*"],
+      "@store/*": ["./src/store/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

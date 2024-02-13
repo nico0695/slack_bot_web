@@ -1,5 +1,3 @@
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-
 import axios, {
   AxiosInstance,
   AxiosRequestConfig,
@@ -9,13 +7,16 @@ import axios, {
 
 import apiConfig from '../../../config/apiConfig';
 
+import { getAuthData } from '../localStorage/auth.utils';
+import { toast } from 'react-toastify';
+
 export interface IApiResponse<T> {
   data?: T;
   error?: string;
 }
 
 // Create an Axios instance with base URL and headers
-const axiosServerInstance: AxiosInstance = axios.create({
+const axiosInstance: AxiosInstance = axios.create({
   baseURL: apiConfig.BASE_URL,
   headers: {
     'Content-Type': 'application/json',
@@ -23,15 +24,18 @@ const axiosServerInstance: AxiosInstance = axios.create({
 });
 
 // Add an interceptor to handle errors globally
-axiosServerInstance.interceptors.response.use(
+axiosInstance.interceptors.response.use(
   (response: AxiosResponse) => {
     return response;
   },
   (error) => {
-    // TODO: Redirect to login page if the user is unauthorized
+    // Redirect to login page if the user is unauthorized
     if (error.response?.status === 401) {
-      console.log('ERROR AUTH');
-      // window.location.href = '/';
+      window.location.href = '/';
+    }
+
+    if (error.response?.status === 403) {
+      toast.error('Error de autenticación');
     }
 
     return Promise.reject(error.message);
@@ -43,22 +47,17 @@ export const fetchData = async <T>(
   config: AxiosRequestConfig
 ): Promise<IApiResponse<T>> => {
   try {
-    const { cookies } = await import('next/headers');
-
-    const cookieStore = cookies();
-    const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
-    const session = await supabase.auth.getSession();
-    const accessToken = session.data?.session?.access_token;
+    const authData = getAuthData();
 
     const configWithAuth: AxiosRequestConfig = {
       ...config,
       headers: {
         ...config.headers,
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${authData.token}`,
       },
     };
 
-    const response = await axiosServerInstance(configWithAuth);
+    const response = await axiosInstance(configWithAuth);
 
     return {
       data: response.data,

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getTextToSpeech } from '@services/textToSpeech/textToSpeech.server-service';
+import { getTextToSpeech } from '@services/textToSpeech/textToSpeech.service';
 
 import TextToSpeech from './page.client';
 

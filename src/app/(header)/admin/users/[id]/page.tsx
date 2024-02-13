@@ -1,5 +1,5 @@
 'use client';
-import { getUserById, updateUser } from '@services/users/users.client-service';
+import { getUserById, updateUser } from '@services/users/users.service';
 import { FormikErrors, useFormik } from 'formik';
 import React, { useEffect } from 'react';
 import { toast } from 'react-toastify';
