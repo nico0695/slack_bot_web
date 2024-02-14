@@ -14,6 +14,11 @@ export const links = [
     authenticated: false,
   },
   {
+    label: 'Asistente',
+    route: '/myAssistant',
+    authenticated: false,
+  },
+  {
     label: 'Imagenes',
     route: '/images/1',
     authenticated: true,
