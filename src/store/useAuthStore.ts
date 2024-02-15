@@ -3,7 +3,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { saveAuthData } from '../shared/utils/localStorage/auth.utils';
-import { getUserMe } from '@services/users/users.client-service';
+import { getUserMe } from '@services/users/users.service';
 import { IUsers } from '@interfaces/users.interfaces';
 
 export const supabase = createClientComponentClient();
