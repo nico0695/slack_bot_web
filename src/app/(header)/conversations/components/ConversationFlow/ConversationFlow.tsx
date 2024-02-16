@@ -8,6 +8,7 @@ import { socket } from '@utils/api/socket';
 
 import styles from './conversationFlow.module.scss';
 import {
+  ConversationProviders,
   IUserConversation,
   RoleTypes,
 } from './interfaces/conversation.interfaces';
@@ -75,6 +76,7 @@ const ConversationFlow = (props: IConversationFlow) => {
           userSlackId: username,
           role: RoleTypes.user,
           content: message,
+          provider: ConversationProviders.WEB,
         },
       ]);
 

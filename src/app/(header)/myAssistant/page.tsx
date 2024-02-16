@@ -48,8 +48,13 @@ const MyAssistant = () => {
     });
 
     return () => {
+      socket.off('join_assistant_room');
       socket.off('join_assistant_response');
       socket.off('receive_assistant_message');
+
+      socket.emit('leave_assistant_room', {
+        channel: userData?.id ?? username,
+      });
     };
   }, []);
 
