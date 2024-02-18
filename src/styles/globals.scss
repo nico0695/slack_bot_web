@@ -46,3 +46,22 @@ a {
 
   position: relative;
 }
+
+// 404 page
+.not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  height: 100vh;
+
+  img {
+    height: 70vh;
+
+    width: auto;
+    max-width: 90vw;
+
+    margin-bottom: 40px;
+  }
+}
