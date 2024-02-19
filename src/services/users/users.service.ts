@@ -6,7 +6,7 @@ import apiConfig from '../../config/apiConfig';
 
 import { IUsers } from '@interfaces/users.interfaces';
 
-import { getRequest, putRequest } from '@utils/api/fetch.utils';
+import { getRequest, postRequest, putRequest } from '@utils/api/fetch.utils';
 
 export const getUserMe = async (): Promise<IUsers | undefined> => {
   try {
@@ -86,5 +86,24 @@ export const getUsers = async (
       pageSize: 6,
       count: 0,
     };
+  }
+};
+
+export const subscribePushNotification = async (
+  subscription: PushSubscription
+): Promise<boolean> => {
+  try {
+    const res = await postRequest<boolean>(
+      `${apiConfig.BASE_URL}/users/subscribe_notifications`,
+      subscription
+    );
+
+    if (res.error || !res.data) {
+      throw new Error(res.error);
+    }
+
+    return res.data;
+  } catch (err) {
+    return false;
   }
 };

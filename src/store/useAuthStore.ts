@@ -3,8 +3,12 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { saveAuthData } from '../shared/utils/localStorage/auth.utils';
-import { getUserMe } from '@services/users/users.service';
+import {
+  getUserMe,
+  subscribePushNotification,
+} from '@services/users/users.service';
 import { IUsers } from '@interfaces/users.interfaces';
+import { serviceWorkerConfig } from '@config/serviceWorkerConfig';
 
 export const supabase = createClientComponentClient();
 
@@ -18,6 +22,7 @@ export interface IUserStore {
     refresh_token: string;
   };
   data?: IUsers;
+  notificationSubscription?: PushSubscription;
 }
 
 export interface IUserStoreHook extends IUserStore {
@@ -82,6 +87,20 @@ export const useAuthStore = create<IUserStoreHook>()(
         const userData = await getUserMe();
 
         set({ data: userData });
+
+        // TODO: Add validation to prevent multiple subscriptions
+        // if (
+        //   !get().notificationSubscription ||
+        //   (await navigator.serviceWorker.getRegistrations()).length === 0
+        // ) {
+        // Web notification subscription
+        const subscription = await serviceWorkerConfig();
+        if (subscription) {
+          const response = await subscribePushNotification(subscription);
+          if (response) {
+            set({ notificationSubscription: subscription });
+          }
+        }
 
         return {
           status: true,
