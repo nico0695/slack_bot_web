@@ -44,6 +44,14 @@ const AudioList = (props: IAudioListProps) => {
               </td>
             </tr>
           ))}
+
+          {audioList?.data.length === 0 && (
+            <tr>
+              <td colSpan={3} className="emptyRow">
+                No hay audios
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

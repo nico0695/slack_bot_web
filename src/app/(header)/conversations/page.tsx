@@ -1,6 +1,8 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 
+import { socket } from '@utils/api/socket';
+
 import styles from './conversations.module.scss';
 
 import ConversationFlow from './components/ConversationFlow/ConversationFlow';
@@ -9,7 +11,6 @@ import ChannelList from './components/ChannelList/ChannelList';
 import { useConversationsStore } from '../../../store/useConversationsStore';
 import { useAuthStore } from '../../../store/useAuthStore';
 import UserLogin from './components/UserLogin/UserLogin';
-import { socket } from '@utils/api/socket';
 
 enum ConversatoionStates {
   DISCONNECTED = 'DISCONNECTED',

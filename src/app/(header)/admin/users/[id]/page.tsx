@@ -93,6 +93,7 @@ const UserForm = ({ params }: IUserFormProps) => {
       email: '',
       phone: '',
       profile: Profiles.USER,
+      enabled: false,
     },
     validate: handleValidate,
     onSubmit: handleSubmit,
@@ -168,6 +169,17 @@ const UserForm = ({ params }: IUserFormProps) => {
           onChange={formik.handleChange}
           error={formik.touched.profile ? formik.errors.profile : null}
           disabled={isLoading}
+        />
+
+        <LabeledInput
+          label="Habilitado"
+          type="checkbox"
+          name="enabled"
+          checked={formik.values.enabled}
+          onChange={formik.handleChange}
+          error={formik.touched.enabled ? formik.errors.enabled : null}
+          disabled={isLoading}
+          inline
         />
 
         <div className={styles.footerForm}>

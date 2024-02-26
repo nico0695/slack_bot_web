@@ -9,6 +9,8 @@ export interface IUsers {
   email: string;
   createdAt: string;
 
+  enabled: boolean;
+
   slackId?: string;
   slackTeamId?: string;
 

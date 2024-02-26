@@ -34,7 +34,6 @@ const MyAssistant = () => {
       'join_assistant_response',
       (response: { conversation: IUserConversation[] }) => {
         if (response.conversation) {
-          console.log('response.conversation= ', response.conversation);
           setConversation(
             response.conversation.filter((conv) => conv !== null)
           );
@@ -43,8 +42,9 @@ const MyAssistant = () => {
     );
 
     socket.on('receive_assistant_message', (data: IUserConversation) => {
-      console.log('receive_assistant_message= ', data);
-      setConversation((prevConversation) => [...prevConversation, data]);
+      if (data) {
+        setConversation((prevConversation) => [...prevConversation, data]);
+      }
     });
 
     return () => {
@@ -126,6 +126,7 @@ const MyAssistant = () => {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               className={styles.messageInput}
+              autoFocus
             />
             <PrimaryButton label=">" type="submit" disabled={!socket} />
           </form>
