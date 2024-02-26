@@ -5,9 +5,12 @@ import styles from './channelList.module.scss';
 import { useConversationsStore } from '../../../../../store/useConversationsStore';
 import PrimaryButton from '../../../../../components/Buttons/PrimaryButton/PrimaryButton';
 import Dialog from '../../../../../components/Dialog/Dialog';
+import { useAuthStore } from '@store/useAuthStore';
 
 const ChannelList = () => {
   const [newChannelIsOpen, setNewChannelIsOpen] = useState(false);
+
+  const { auth } = useAuthStore();
 
   const {
     channels,
@@ -66,43 +69,47 @@ const ChannelList = () => {
         })}
       </ul>
 
-      <PrimaryButton
-        label="Nuevo"
-        onClick={() => setNewChannelIsOpen(true)}
-        style={{
-          borderTopLeftRadius: 0,
-          borderTopRightRadius: 0,
-        }}
-      />
+      {auth && (
+        <>
+          <PrimaryButton
+            label="Nuevo"
+            onClick={() => setNewChannelIsOpen(true)}
+            style={{
+              borderTopLeftRadius: 0,
+              borderTopRightRadius: 0,
+            }}
+          />
 
-      <Dialog
-        title="Nuevo canal"
-        isOpen={newChannelIsOpen}
-        hideModal={() => setNewChannelIsOpen(false)}
-      >
-        <div>
-          <form onSubmit={handleCreateChannel}>
-            <div className={styles.labeledValue}>
-              <label htmlFor="phrase">Nobre del canal</label>
-              <input
-                name="channelName"
-                type="text"
-                placeholder="Canal..."
-                autoFocus
-                onKeyDown={(e) => {
-                  if (e.keyCode === 32) {
-                    e.preventDefault();
-                  }
-                }}
-              />
-            </div>
+          <Dialog
+            title="Nuevo canal"
+            isOpen={newChannelIsOpen}
+            hideModal={() => setNewChannelIsOpen(false)}
+          >
+            <div>
+              <form onSubmit={handleCreateChannel}>
+                <div className={styles.labeledValue}>
+                  <label htmlFor="phrase">Nobre del canal</label>
+                  <input
+                    name="channelName"
+                    type="text"
+                    placeholder="Canal..."
+                    autoFocus
+                    onKeyDown={(e) => {
+                      if (e.keyCode === 32) {
+                        e.preventDefault();
+                      }
+                    }}
+                  />
+                </div>
 
-            <div className={styles.buttonContainer}>
-              <PrimaryButton label={'Guardar'} type="submit" />
+                <div className={styles.buttonContainer}>
+                  <PrimaryButton label={'Guardar'} type="submit" />
+                </div>
+              </form>
             </div>
-          </form>
-        </div>
-      </Dialog>
+          </Dialog>
+        </>
+      )}
     </div>
   );
 };

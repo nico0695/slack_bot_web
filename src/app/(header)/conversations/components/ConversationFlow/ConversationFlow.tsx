@@ -14,6 +14,7 @@ import {
 } from './interfaces/conversation.interfaces';
 import { useConversationsStore } from '../../../../../store/useConversationsStore';
 import PrimaryButton from '../../../../../components/Buttons/PrimaryButton/PrimaryButton';
+import { useAuthStore } from '@store/useAuthStore';
 
 interface IConversationFlow {
   username: string;
@@ -29,6 +30,8 @@ const ConversationFlow = (props: IConversationFlow) => {
   const [iaEnabled, setIaEnabled] = useState(false);
 
   const [conversation, setConversation] = useState<IUserConversation[]>([]);
+
+  const { auth } = useAuthStore();
 
   const { fetchChannels, setChannelSelected } = useConversationsStore();
 
@@ -107,18 +110,25 @@ const ConversationFlow = (props: IConversationFlow) => {
     <div className={styles.container}>
       <div className={styles.header}>
         <div>{`usuario: ${username}`}</div>
-        <div className={styles.checkContainer}>
-          <label htmlFor="iaEnabled">Activar ia</label>
-          <input
-            name="iaEnabled"
-            type="checkbox"
-            checked={iaEnabled}
-            onChange={() => setIaEnabled((prev) => !prev)}
-          />
-        </div>
-        <button className={styles.headerButton} onClick={handleCloseChannel}>
-          Cerrar canal
-        </button>
+        {auth && (
+          <>
+            <div className={styles.checkContainer}>
+              <label htmlFor="iaEnabled">Activar ia</label>
+              <input
+                name="iaEnabled"
+                type="checkbox"
+                checked={iaEnabled}
+                onChange={() => setIaEnabled((prev) => !prev)}
+              />
+            </div>
+            <button
+              className={styles.headerButton}
+              onClick={handleCloseChannel}
+            >
+              Cerrar canal
+            </button>
+          </>
+        )}
       </div>
 
       <div className={styles.dialogContainer} ref={conversationRef}>

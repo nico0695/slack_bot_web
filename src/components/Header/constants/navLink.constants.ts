@@ -16,7 +16,7 @@ export const links = [
   {
     label: 'Asistente',
     route: '/myAssistant',
-    authenticated: false,
+    authenticated: true,
   },
   {
     label: 'Imagenes',
