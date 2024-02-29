@@ -95,10 +95,6 @@ const MyAssistant = () => {
       <h4>My Assistant</h4>
 
       <div className={styles.container}>
-        <div className={styles.header}>
-          <div>{username}</div>
-        </div>
-
         <div className={styles.dialogContainer} ref={conversationRef}>
           {conversation.map((data: IUserConversation, i: number) => (
             <div

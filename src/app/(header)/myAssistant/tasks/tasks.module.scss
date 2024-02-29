@@ -1,0 +1,58 @@
+.tasksList {
+  list-style-type: none;
+
+  height: 70vh;
+  overflow-y: auto;
+
+  margin: 0;
+  padding: 0;
+
+  border-radius: 10px;
+
+  border: 1px solid var(--blue-bayoux-600);
+  background: var(--blue-bayoux-950);
+}
+
+.taskItem {
+  padding: 15px 10px;
+  text-align: start;
+
+  background: var(--blue-bayoux-800);
+
+  &:nth-child(odd) {
+    background-color: var(--blue-bayoux-900);
+  }
+
+  &:hover {
+    background-color: var(--blue-bayoux-700);
+  }
+
+  h5 {
+    margin: 0;
+    margin-bottom: 10px;
+
+    padding: 0 10px;
+
+    color: var(--blue-bayoux-50);
+
+    font-size: 1em;
+    font-weight: 700;
+
+    span {
+      margin-left: 15px;
+      color: var(--blue-bayoux-200);
+
+      font-size: 0.9em;
+    }
+  }
+
+  p {
+    margin: 0;
+
+    padding: 0 10px;
+
+    color: var(--blue-bayoux-100);
+
+    font-size: 0.9em;
+  }
+}
