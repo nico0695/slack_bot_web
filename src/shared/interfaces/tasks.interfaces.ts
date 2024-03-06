@@ -13,3 +13,5 @@ export interface ITask {
   createdAt: Date;
   deletedAt: Date;
 }
+
+export type TaskFormOmitedFields = 'id' | 'createdAt' | 'deletedAt' | 'user';

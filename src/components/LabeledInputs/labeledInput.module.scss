@@ -21,7 +21,9 @@
     margin-bottom: 10px;
   }
 
-  input {
+  input,
+  textarea,
+  select {
     width: 100%;
 
     border-radius: 5px;
@@ -75,6 +77,11 @@
 
   input[type='checkbox']:checked::before {
     transform: scale(1);
+  }
+
+  textarea {
+    resize: none;
+    max-height: 250px;
   }
 
   small {

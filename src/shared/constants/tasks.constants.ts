@@ -5,9 +5,19 @@ export enum TaskStatus {
   CANCELED = 'canceled',
 }
 
-export const TaskStatusText = {
+export const taskStatusText = {
   [TaskStatus.PENDING]: 'Pendiente',
   [TaskStatus.IN_PROGRESS]: 'En progreso',
   [TaskStatus.COMPLETED]: 'Completada',
   [TaskStatus.CANCELED]: 'Cancelada',
 };
+
+export const taskOptions = [
+  { label: taskStatusText[TaskStatus.PENDING], value: TaskStatus.PENDING },
+  {
+    label: taskStatusText[TaskStatus.IN_PROGRESS],
+    value: TaskStatus.IN_PROGRESS,
+  },
+  { label: taskStatusText[TaskStatus.COMPLETED], value: TaskStatus.COMPLETED },
+  { label: taskStatusText[TaskStatus.CANCELED], value: TaskStatus.CANCELED },
+];
