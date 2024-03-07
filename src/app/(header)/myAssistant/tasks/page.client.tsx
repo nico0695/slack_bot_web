@@ -1,18 +1,21 @@
 'use client';
 import React, { useEffect, useState } from 'react';
+import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
 
+import { ITask } from '@interfaces/tasks.interfaces';
 import { getTasks } from '@services/tasks/tasks.service';
 
 import styles from './tasks.module.scss';
 import { taskStatusText } from '@constants/tasks.constants';
-import TaskForm from './components/TaskForm/TaskForm';
+
 import { ActionTypes } from '@constants/form.constants';
-import { ITask } from '@interfaces/tasks.interfaces';
+import TaskForm from './components/TaskForm/TaskForm';
+
 import { useToggle } from '@hooks/useToggle/useToggle';
+
 import PrimaryButton from '@components/Buttons/PrimaryButton/PrimaryButton';
 import Dialog from '@components/Dialog/Dialog';
 import IconButton from '@components/Buttons/IconButton/IconButton';
-import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
 
 interface ITasksProps {
   initialTasks: ITask[];

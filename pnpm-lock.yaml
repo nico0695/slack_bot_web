@@ -8,6 +8,9 @@ overrides:
   styled-components: ^5
 
 dependencies:
+  '@formkit/tempo':
+    specifier: ^0.0.14
+    version: 0.0.14
   '@supabase/auth-helpers-nextjs':
     specifier: ^0.8.7
     version: 0.8.7(@supabase/supabase-js@2.39.2)
@@ -460,6 +463,10 @@ packages:
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
       - supports-color
+
+  /@formkit/tempo@0.0.14:
+    resolution: {integrity: sha512-W4FN0sL4SItj9sIuLHJnddvx0eKwPeYgEuTY6akSPBZ8Pw0u1U3R4h6yqOLfYDKDmT8y31b18IWbp9kUZ3Yl1A==}
+    dev: false
 
   /@fullhuman/postcss-purgecss@5.0.0(postcss@8.4.35):
     resolution: {integrity: sha512-onDS/b/2pMRzqSoj4qOs2tYFmOpaspjTAgvACIHMPiicu1ptajiBruTrjBzTKdxWdX0ldaBb7wj8nEaTLyFkJw==}

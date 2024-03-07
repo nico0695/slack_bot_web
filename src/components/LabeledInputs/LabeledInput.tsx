@@ -10,7 +10,7 @@ interface IOptionsSelect {
 interface ILabeledInputsProps {
   label?: string;
 
-  value?: string | number;
+  value?: string | number | null;
   checked?: boolean;
   onChange?: (
     e: React.ChangeEvent<
@@ -60,7 +60,7 @@ const LabeledInput = (props: ILabeledInputsProps) => {
           type={type ?? 'text'}
           id={id ?? name}
           name={name}
-          value={value}
+          value={value ?? ''}
           checked={checked}
           onChange={onChange ?? (() => null)}
           autoFocus={autoFocus}
@@ -73,7 +73,7 @@ const LabeledInput = (props: ILabeledInputsProps) => {
         <textarea
           id={id ?? name}
           name={name}
-          value={value}
+          value={value ?? ''}
           onChange={onChange ?? (() => null)}
           disabled={disabled}
           className={`${light ? 'light' : ''}`}
@@ -85,7 +85,7 @@ const LabeledInput = (props: ILabeledInputsProps) => {
         <select
           id={id ?? name}
           name={name}
-          value={value}
+          value={value ?? undefined}
           onChange={onChange ?? (() => null)}
           disabled={disabled}
           className={`${light ? 'light' : ''}`}

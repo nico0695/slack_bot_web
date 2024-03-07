@@ -9,6 +9,7 @@ import {
   buttonActionLabel,
   validationMessages,
 } from '@constants/form.constants';
+import { TaskStatus, taskOptions } from '@constants/tasks.constants';
 
 import {
   createTask,
@@ -17,11 +18,10 @@ import {
 } from '@services/tasks/tasks.service';
 import { ITask, TaskFormOmitedFields } from '@interfaces/tasks.interfaces';
 
+import styles from './taskForm.module.scss';
+
 import LabeledInput from '@components/LabeledInputs/LabeledInput';
 import PrimaryButton from '@components/Buttons/PrimaryButton/PrimaryButton';
-
-import styles from './taskForm.module.scss';
-import { TaskStatus, taskOptions } from '@constants/tasks.constants';
 
 const taskInitialValue = {
   title: '',
@@ -29,15 +29,17 @@ const taskInitialValue = {
   status: TaskStatus.PENDING,
 };
 
+interface ITaskFormProps {
+  data?: ITask;
+  action: ActionTypes;
+  onSubmit?: () => void;
+}
+
 const TaskForm = ({
   data,
   action = ActionTypes.DETAIL,
   onSubmit,
-}: {
-  data?: ITask;
-  action: ActionTypes;
-  onSubmit?: () => void;
-}) => {
+}: ITaskFormProps) => {
   const [isLoading, , startLoading, stopLoading] = useToggle(false);
 
   const handleValidate = (values: Omit<ITask, TaskFormOmitedFields>) => {
@@ -68,14 +70,10 @@ const TaskForm = ({
     if (response) {
       toast.success('Tarea creada correctamente');
 
-      if (onSubmit) {
-        onSubmit();
-      }
-
       return;
     }
 
-    toast.error('Error al crear la tarea');
+    throw new Error('Error al crear la tarea');
   };
 
   const handleUpdate = async (
@@ -87,14 +85,10 @@ const TaskForm = ({
     if (response) {
       toast.success('Tarea actualizada correctamente');
 
-      if (onSubmit) {
-        onSubmit();
-      }
-
       return;
     }
 
-    toast.error('Error al actualizar la tarea');
+    throw new Error('Error al actualizar la tarea');
   };
 
   const handleDelete = async (taskId: number) => {
@@ -103,27 +97,35 @@ const TaskForm = ({
     if (response) {
       toast.success('Tarea eliminada correctamente');
 
+      return;
+    }
+
+    throw new Error('Error al eliminar la tarea');
+  };
+
+  const handleSubmit = async (values: Omit<ITask, TaskFormOmitedFields>) => {
+    try {
+      startLoading();
+
+      if (action === ActionTypes.CREATE) {
+        await handleCreate(values);
+      }
+      if (action === ActionTypes.UPDATE && data?.id) {
+        await handleUpdate(data.id, values);
+      }
+      if (action === ActionTypes.DELETE && data?.id) {
+        await handleDelete(data.id);
+      }
+
       if (onSubmit) {
         onSubmit();
       }
 
-      return;
-    }
-
-    toast.error('Error al eliminar la tarea');
-  };
-
-  const handleSubmit = async (values: Omit<ITask, TaskFormOmitedFields>) => {
-    startLoading();
-
-    if (action === ActionTypes.CREATE) {
-      await handleCreate(values);
-    }
-    if (action === ActionTypes.UPDATE && data?.id) {
-      await handleUpdate(data.id, values);
-    }
-    if (action === ActionTypes.DELETE && data?.id) {
-      await handleDelete(data.id);
+      formik.resetForm();
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message ?? 'Ups! Algo salió mal');
+      }
     }
 
     stopLoading();
@@ -139,7 +141,7 @@ const TaskForm = ({
     if (data) {
       formik.setValues(data);
     } else {
-      formik.setValues(taskInitialValue);
+      formik.resetForm();
     }
   }, [data]);
 

@@ -1,0 +1,16 @@
+.form {
+  display: flex;
+  flex-direction: column;
+
+  width: 90vw;
+  max-width: 450px;
+
+  input[type='datetime-local'] {
+    width: auto;
+  }
+}
+
+.footerForm {
+  display: flex;
+  justify-content: flex-end;
+}
