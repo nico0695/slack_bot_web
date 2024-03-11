@@ -42,6 +42,10 @@
       outline: none;
       background-color: var(--blue-bayoux-900);
     }
+
+    &:global(.light):focus {
+      background-color: var(--blue-bayoux-100);
+    }
   }
 
   input[type='checkbox'] {

@@ -1,8 +1,6 @@
 self.addEventListener('push', (event) => {
   const data = event.data.json();
 
-  console.log('Push data= ', data);
-
   const notificationOptions = {
     body: data.body,
     tag: data.tag ?? 'pw-tag',
@@ -18,6 +16,16 @@ self.addEventListener('push', (event) => {
         data?.title ?? 'Alert',
         notificationOptions
       );
+
+      // Notify to all tabs (useNotificationsAlerts)
+      const channel = new BroadcastChannel('sb-push-notifications');
+
+      channel.postMessage({
+        title: data?.title ?? 'Alert',
+        body: data.body,
+        icon: data?.icon ?? 'https://i.imgur.com/Gayy8Qt.png',
+        url: data?.url,
+      });
     }
   } catch (error) {
     console.log('SW: push error', error);

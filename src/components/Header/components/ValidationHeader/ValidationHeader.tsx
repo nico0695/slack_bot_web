@@ -6,9 +6,12 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { useAuthStore } from '../../../../store/useAuthStore';
+import useNotificationsAlert from '@hooks/useNotificationsAlerts/useNotificationsAlerts';
 
 const ValidationHeader = () => {
   const { validateSupabaseAuth } = useAuthStore();
+
+  useNotificationsAlert();
 
   useEffect(() => {
     validateSupabaseAuth();
