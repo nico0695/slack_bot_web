@@ -7,7 +7,8 @@ import headerStyles from '../../header.module.scss';
 import styles from './myProfile.module.scss';
 
 import { useToggle } from '@hooks/useToggle/useToggle';
-import { useAuthStore } from '../../../../store/useAuthStore';
+import { useAuthStore } from '@store/useAuthStore';
+
 import LabeledInput from '@components/LabeledInputs/LabeledInput';
 
 const MyProfile = ({ username }: { username: string }) => {

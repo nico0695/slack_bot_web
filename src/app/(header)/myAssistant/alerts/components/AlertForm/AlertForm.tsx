@@ -147,6 +147,7 @@ const AlertForm = ({
             }}
             error={formik.touched.date ? formik.errors.date : null}
             disabled={inputDisabled}
+            light
           />
 
           <LabeledInput
@@ -158,6 +159,7 @@ const AlertForm = ({
             error={formik.touched.message ? formik.errors.message : null}
             disabled={inputDisabled}
             autoFocus
+            light
           />
         </div>
 

@@ -160,6 +160,7 @@ const TaskForm = ({
             onChange={formik.handleChange}
             error={formik.touched.title ? formik.errors.title : null}
             disabled={inputDisabled}
+            light
           />
 
           <LabeledInput
@@ -171,6 +172,7 @@ const TaskForm = ({
             error={formik.touched.status ? formik.errors.status : null}
             disabled={inputDisabled}
             options={taskOptions}
+            light
           />
 
           <LabeledInput
@@ -183,6 +185,7 @@ const TaskForm = ({
               formik.touched.description ? formik.errors.description : null
             }
             disabled={inputDisabled}
+            light
           />
         </div>
 
