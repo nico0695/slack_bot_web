@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 
 import styles from './myAssistant.module.scss';
 import PrimaryButton from '@components/Buttons/PrimaryButton/PrimaryButton';
@@ -10,6 +10,7 @@ import {
   IUserConversation,
   RoleTypes,
 } from '../conversations/components/ConversationFlow/interfaces/conversation.interfaces';
+import Loading from './loading';
 
 const MyAssistant = () => {
   const [message, setMessage] = useState('');
@@ -92,6 +93,8 @@ const MyAssistant = () => {
 
   return (
     <div>
+      <Suspense fallback={<Loading />} />
+
       <h4>My Assistant</h4>
 
       <div className={styles.container}>
