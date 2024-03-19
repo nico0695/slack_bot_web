@@ -7,6 +7,7 @@ import { cookies } from 'next/headers';
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { links } from './constants/navLink.constants';
 import MyProfile from './components/MyProfile/MyProfile';
+import AdminRoutes from './components/AdminRoutes/AdminRoutes';
 
 const Header = async () => {
   const cookieStore = cookies();
@@ -23,13 +24,15 @@ const Header = async () => {
             .filter(({ authenticated }) => !authenticated || username)
             .map(({ label, route }) => (
               <Link href={route} key={route}>
-                <li className={styles.navItems}>{label}</li>
+                <li>{label}</li>
               </Link>
             ))}
 
+          <AdminRoutes />
+
           {!username && (
             <Link href={'/login'}>
-              <li className={styles.navItems}>{'Login'}</li>
+              <li>{'Login'}</li>
             </Link>
           )}
         </ul>

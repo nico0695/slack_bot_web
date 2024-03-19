@@ -3,7 +3,6 @@ import React from 'react';
 
 import Dialog from '@components/Dialog/Dialog';
 
-import headerStyles from '../../header.module.scss';
 import styles from './myProfile.module.scss';
 
 import { useToggle } from '@hooks/useToggle/useToggle';
@@ -18,7 +17,7 @@ const MyProfile = ({ username }: { username: string }) => {
 
   return (
     <>
-      <div className={headerStyles.navItems} onClick={showDialog}>
+      <div className={styles.profileButton} onClick={showDialog}>
         {username}
       </div>
 

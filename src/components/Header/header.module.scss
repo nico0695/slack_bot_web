@@ -18,16 +18,16 @@
 
   margin: 0;
   padding: 0;
-}
 
-.navItems {
-  padding: 10px 20px;
+  li {
+    padding: 10px 20px;
 
-  cursor: pointer;
+    cursor: pointer;
 
-  &:hover,
-  :active,
-  :focus {
-    background-color: #ffffff22;
+    &:hover,
+    :active,
+    :focus {
+      background-color: #ffffff22;
+    }
   }
 }

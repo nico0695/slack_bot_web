@@ -4,10 +4,6 @@ export const links = [
     route: '/',
     authenticated: false,
   },
-  // {
-  //   label: 'Constants',
-  //   route: '/globalConstants',
-  // },
   {
     label: 'Conversaciones',
     route: '/conversations',
@@ -18,14 +14,22 @@ export const links = [
     route: '/myAssistant',
     authenticated: true,
   },
-  {
-    label: 'Imagenes',
-    route: '/images/1',
-    authenticated: true,
-  },
+
   {
     label: 'Generar Audio',
     route: '/textToSpeech',
+    authenticated: true,
+  },
+];
+
+export const adminLinks = [
+  // {
+  //   label: 'Constants',
+  //   route: '/globalConstants',
+  // },
+  {
+    label: 'Imagenes',
+    route: '/images/1',
     authenticated: true,
   },
   {
