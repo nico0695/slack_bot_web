@@ -96,10 +96,11 @@ export const useAuthStore = create<IUserStoreHook>()(
         // Web notification subscription
         const subscription = await serviceWorkerConfig();
         if (subscription) {
-          const response = await subscribePushNotification(subscription);
-          if (response) {
-            set({ notificationSubscription: subscription });
-          }
+          subscribePushNotification(subscription).then((response) => {
+            if (response) {
+              set({ notificationSubscription: subscription });
+            }
+          });
         }
 
         return {

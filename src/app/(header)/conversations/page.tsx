@@ -16,6 +16,7 @@ enum ConversatoionStates {
   DISCONNECTED = 'DISCONNECTED',
   CONNECTING = 'CONNECTING',
   CONNECTED = 'CONNECTED',
+  ERROR = 'ERROR',
 }
 
 const Conversations = () => {
@@ -40,12 +41,18 @@ const Conversations = () => {
         });
 
         socket.on('connect_error', () => {
-          setTimeout(() => socket.connect(), 5000);
+          setConversationState(ConversatoionStates.ERROR);
         });
 
         socket.on('disconnect', () => console.log('socket disconnected'));
       }
     }
+
+    return () => {
+      socket.off('connect');
+      socket.off('connect_error');
+      socket.off('disconnect');
+    };
   }, [username]);
 
   const joinRoom = (channel: string) => {
@@ -66,6 +73,10 @@ const Conversations = () => {
       <h4 className={styles.title}>Conversaciones</h4>
 
       {conversationState === ConversatoionStates.DISCONNECTED && <UserLogin />}
+
+      {conversationState === ConversatoionStates.ERROR && (
+        <h4>Hubo un error al conectar</h4>
+      )}
 
       {conversationState === ConversatoionStates.CONNECTING && (
         <h4>Conectando...</h4>
