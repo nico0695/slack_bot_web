@@ -78,6 +78,7 @@ export default function Login() {
           value={formik.values.email}
           onChange={formik.handleChange}
           error={formik.touched.email ? formik.errors.email : null}
+          autoFocus
         />
 
         <LabeledInput

@@ -1,5 +1,5 @@
 'use client';
-import React, { Suspense, useEffect, useRef, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 
 import styles from './myAssistant.module.scss';
 import PrimaryButton from '@components/Buttons/PrimaryButton/PrimaryButton';
@@ -11,13 +11,14 @@ import {
   RoleTypes,
 } from '../conversations/components/ConversationFlow/interfaces/conversation.interfaces';
 import Loading from './loading';
+import useScrollChat from '@hooks/useScrollChat/useScrollChat';
 
 const MyAssistant = () => {
   const [message, setMessage] = useState('');
 
   const [conversation, setConversation] = useState<IUserConversation[]>([]);
 
-  const conversationRef = useRef<HTMLDivElement>(null);
+  const [conversationRef] = useScrollChat(conversation);
 
   const { username, data: userData } = useAuthStore();
 
@@ -58,14 +59,6 @@ const MyAssistant = () => {
       });
     };
   }, []);
-
-  // Scroll to the end of the conversation
-  useEffect(() => {
-    conversationRef?.current?.scrollTo({
-      top: conversationRef?.current?.scrollHeight,
-      behavior: 'smooth',
-    });
-  }, [conversationRef, conversation]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
