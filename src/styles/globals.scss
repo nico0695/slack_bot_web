@@ -3,6 +3,8 @@
 html {
   min-height: 100%;
   font-family: var(--font-inter);
+
+  scroll-behavior: smooth;
 }
 
 body {

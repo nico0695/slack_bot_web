@@ -83,7 +83,7 @@
   border: 2px solid var(--blue-bayoux-600);
   background-color: var(--blue-bayoux-50);
 
-  border-bottom-right-radius: initial;
+  border-bottom-left-radius: initial;
 }
 
 .bubbleRight {
@@ -91,7 +91,7 @@
   background-color: var(--mulled-wine-50);
 
   align-self: flex-end;
-  border-bottom-left-radius: initial;
+  border-bottom-right-radius: initial;
 }
 
 .bubbleUser {

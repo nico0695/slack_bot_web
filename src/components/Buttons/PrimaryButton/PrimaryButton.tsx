@@ -12,15 +12,17 @@ interface IPrimaryButton {
   type?: 'button' | 'submit' | 'reset';
 
   style?: React.CSSProperties;
+
+  className?: string;
 }
 
 const PrimaryButton = (props: IPrimaryButton) => {
-  const { label, onClick, type, disabled, loading, style } = props;
+  const { label, onClick, type, disabled, loading, style, className } = props;
 
   return (
     <button
       type={type ?? 'button'}
-      className={styles.primaryButton}
+      className={`${styles.primaryButton} ${className ?? ''}`}
       onClick={onClick}
       disabled={disabled || loading}
       style={style ?? {}}
