@@ -40,7 +40,8 @@ const Conversations = () => {
           console.log('socket id: ', socket.id);
         });
 
-        socket.on('connect_error', () => {
+        socket.on('connect_error', (error) => {
+          console.log('connect_error= ', error);
           setConversationState(ConversatoionStates.ERROR);
         });
 
