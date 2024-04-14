@@ -1,4 +1,4 @@
-.header {
+.header nav {
   width: 100vw;
   max-width: 900px;
 
@@ -12,7 +12,8 @@
   border-radius: 10px;
 }
 
-.navigation {
+.navigation,
+.navigationMobile {
   display: flex;
   list-style: none;
 
@@ -29,5 +30,17 @@
     :focus {
       background-color: #ffffff22;
     }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .navigation {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .navigationMobile {
+    display: none;
   }
 }

@@ -36,9 +36,20 @@ const Header = async () => {
             </Link>
           )}
         </ul>
-      </nav>
 
-      {username && <MyProfile username={username} />}
+        {/* Mobile provitional menu */}
+        <ul className={styles.navigationMobile}>
+          <Link href={'/'}>
+            <li>{'Home'}</li>
+          </Link>
+
+          <Link href={'/myAssistant'}>
+            <li>{'Asistente'}</li>
+          </Link>
+        </ul>
+
+        {username && <MyProfile username={username} />}
+      </nav>
     </header>
   );
 };

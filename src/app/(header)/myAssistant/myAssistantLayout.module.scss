@@ -28,6 +28,11 @@
       background: var(--blue-bayoux-600);
       border-color: var(--blue-bayoux-400);
     }
+
+    &:global(.active) {
+      background: var(--blue-bayoux-500);
+      border-color: var(--blue-bayoux-200);
+    }
   }
 }
 
