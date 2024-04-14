@@ -12,7 +12,6 @@ export default function MyAssistantLayout({
 }) {
   const pathName = usePathname();
 
-  console.log('path= ', pathName);
   return (
     <div className={styles.myAssistantWrapper}>
       <div className={styles.assistantMenu}>
