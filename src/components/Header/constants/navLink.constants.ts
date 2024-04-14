@@ -14,12 +14,6 @@ export const links = [
     route: '/myAssistant',
     authenticated: true,
   },
-
-  {
-    label: 'Generar Audio',
-    route: '/textToSpeech',
-    authenticated: true,
-  },
 ];
 
 export const adminLinks = [
@@ -30,6 +24,11 @@ export const adminLinks = [
   {
     label: 'Imagenes',
     route: '/images/1',
+    authenticated: true,
+  },
+  {
+    label: 'Generar Audio',
+    route: '/textToSpeech',
     authenticated: true,
   },
   {

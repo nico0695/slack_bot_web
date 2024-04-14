@@ -15,6 +15,7 @@ import {
 import { useConversationsStore } from '../../../../../store/useConversationsStore';
 import PrimaryButton from '../../../../../components/Buttons/PrimaryButton/PrimaryButton';
 import { useAuthStore } from '@store/useAuthStore';
+import { premiumProfiles } from '@constants/users.constants';
 
 interface IConversationFlow {
   username: string;
@@ -31,7 +32,7 @@ const ConversationFlow = (props: IConversationFlow) => {
 
   const [conversation, setConversation] = useState<IUserConversation[]>([]);
 
-  const { auth } = useAuthStore();
+  const { auth, data } = useAuthStore();
 
   const { fetchChannels, setChannelSelected } = useConversationsStore();
 
@@ -106,11 +107,12 @@ const ConversationFlow = (props: IConversationFlow) => {
     }
   };
 
+  const isUserPremium = data?.profile && premiumProfiles.includes(data.profile);
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <div>{`usuario: ${username}`}</div>
-        {auth && (
+        {auth && isUserPremium && (
           <>
             <div className={styles.checkContainer}>
               <label htmlFor="iaEnabled">Activar ia</label>

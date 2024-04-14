@@ -3,3 +3,5 @@ export enum Profiles {
   USER_PREMIUM = 2,
   USER = 3,
 }
+
+export const premiumProfiles = [Profiles.ADMIN, Profiles.USER_PREMIUM];

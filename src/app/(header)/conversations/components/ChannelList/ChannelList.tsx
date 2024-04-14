@@ -6,11 +6,12 @@ import { useConversationsStore } from '../../../../../store/useConversationsStor
 import PrimaryButton from '../../../../../components/Buttons/PrimaryButton/PrimaryButton';
 import Dialog from '../../../../../components/Dialog/Dialog';
 import { useAuthStore } from '@store/useAuthStore';
+import { premiumProfiles } from '@constants/users.constants';
 
 const ChannelList = () => {
   const [newChannelIsOpen, setNewChannelIsOpen] = useState(false);
 
-  const { auth } = useAuthStore();
+  const { auth, data } = useAuthStore();
 
   const {
     channels,
@@ -50,6 +51,8 @@ const ChannelList = () => {
     }
   };
 
+  const isUserPremium = data?.profile && premiumProfiles.includes(data.profile);
+
   return (
     <div className={styles.container}>
       <h5 className={styles.listTitle}>Canales</h5>
@@ -71,14 +74,16 @@ const ChannelList = () => {
 
       {auth && (
         <>
-          <PrimaryButton
-            label="Nuevo"
-            onClick={() => setNewChannelIsOpen(true)}
-            style={{
-              borderTopLeftRadius: 0,
-              borderTopRightRadius: 0,
-            }}
-          />
+          {isUserPremium && (
+            <PrimaryButton
+              label="Nuevo"
+              onClick={() => setNewChannelIsOpen(true)}
+              style={{
+                borderTopLeftRadius: 0,
+                borderTopRightRadius: 0,
+              }}
+            />
+          )}
 
           <Dialog
             title="Nuevo canal"
