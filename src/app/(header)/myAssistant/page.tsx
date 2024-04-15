@@ -1,6 +1,9 @@
 'use client';
 import React, { Suspense, useEffect, useState } from 'react';
 
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+
 import styles from './myAssistant.module.scss';
 import PrimaryButton from '@components/Buttons/PrimaryButton/PrimaryButton';
 import { socket } from '@utils/api/socket';
@@ -106,7 +109,19 @@ const MyAssistant = () => {
 
                 {data.provider === 'slack' && <small>(Slack)</small>}
               </h6>
-              <p className={styles.bubbleMessage}>{data.content}</p>
+
+              {data.role !== RoleTypes.user && (
+                <ReactMarkdown
+                  className="markdownStyle"
+                  remarkPlugins={[remarkGfm]}
+                >
+                  {data.content?.replace(/\n/g, '  \n')}
+                </ReactMarkdown>
+              )}
+
+              {data.role === RoleTypes.user && (
+                <p className={styles.bubbleMessage}>{data.content}</p>
+              )}
             </div>
           ))}
         </div>
