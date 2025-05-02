@@ -21,6 +21,8 @@ const MyAssistant = () => {
 
   const [conversation, setConversation] = useState<IUserConversation[]>([]);
 
+  const [iaEnabled, setIaEnabled] = useState(false);
+
   const [conversationRef] = useScrollChat(conversation);
 
   const { username, data: userData } = useAuthStore();
@@ -70,7 +72,7 @@ const MyAssistant = () => {
       socket.emit('send_assistant_message', {
         userId: userData?.id,
         message: message,
-        iaEnabled: false,
+        iaEnabled,
       });
 
       setConversation((prevConversation) => [
@@ -91,7 +93,19 @@ const MyAssistant = () => {
     <div>
       <Suspense fallback={<Loading />} />
 
-      <h4>My Assistant</h4>
+      <h4>Copilot</h4>
+
+      <div className={styles.header}>
+        <div className={styles.checkContainer}>
+          <label htmlFor="iaEnabled">Activar ia</label>
+          <input
+            name="iaEnabled"
+            type="checkbox"
+            checked={iaEnabled}
+            onChange={() => setIaEnabled((prev) => !prev)}
+          />
+        </div>
+      </div>
 
       <div className={styles.container}>
         <div className={styles.dialogContainer} ref={conversationRef}>
