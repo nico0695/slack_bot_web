@@ -10,12 +10,7 @@ const HomePage = () => {
   return (
     <div>
       <header className={styles.mainSection}>
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-          }}
-        >
+        <div className={styles.headerContainer}>
           <Header />
         </div>
 
