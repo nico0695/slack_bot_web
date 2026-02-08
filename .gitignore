@@ -7,3 +7,14 @@ node_modules/
 out/
 
 .env
+
+
+/.claude
+/.agents
+/.gemini
+/.github/skills
+
+AGENTS_AND_SKILLS.md
+AGENTS.md
+CLAUDE.md
+GEMINI.md

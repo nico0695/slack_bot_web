@@ -4,14 +4,14 @@ import Link from 'next/link';
 import styles from './header.module.scss';
 
 import { cookies } from 'next/headers';
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { links } from './constants/navLink.constants';
 import MyProfile from './components/MyProfile/MyProfile';
 import AdminRoutes from './components/AdminRoutes/AdminRoutes';
 
 const Header = async () => {
   const cookieStore = cookies();
-  const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
+  const supabase = createServerComponentClient({ cookies: () => cookieStore });
 
   const userLogged = await supabase.auth.getUser();
   const username = userLogged?.data.user?.email?.split('@')[0] ?? '';

@@ -1,34 +1,147 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Slack Bot Web Dashboard
 
-## Getting Started
+Web interface for the [Slack Bot](https://github.com/nico0695/slack_bot) backend. Built with Next.js 14 (App Router), TypeScript, Supabase Auth, and real-time Socket.io communication.
 
-First, run the development server:
+## Features
+
+- **AI Assistant Chat** - Real-time conversational interface with AI (OpenAI/Gemini) via Socket.io
+- **Slack Conversations** - Join channels and chat with real-time message updates
+- **Task Management** - Create, view, and manage tasks
+- **Alert System** - Create and manage time-based alerts
+- **Notes** - Simple note-taking interface
+- **Image Gallery** - Browse AI-generated images with pagination
+- **Text-to-Speech** - Generate and play TTS audio
+- **Admin Panel** - User management dashboard
+- **Web Push Notifications** - Browser push notification support via Service Worker
+
+## Tech Stack
+
+- **Framework:** Next.js 14 (App Router), React 18, TypeScript
+- **Auth:** Supabase (email/password)
+- **State:** Zustand (with localStorage persistence)
+- **Real-time:** Socket.io Client
+- **Styling:** Sass (CSS Modules)
+- **Forms:** Formik + Zod
+- **HTTP:** Axios (client/server split with auto Bearer token injection)
+
+## Quick Start
+
+### Prerequisites
+
+- Node.js (LTS)
+- pnpm
+- Running instance of the [Slack Bot backend](https://github.com/nico0695/slack_bot) (default: `http://localhost:4000`)
+- Supabase project configured
+
+### Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
+# Clone and install
+git clone <repository-url>
+cd slack_bot_web
+pnpm install
+
+# Configure environment
+cp .env .env.local
+# Edit .env.local with your credentials
+
+# Development mode
+pnpm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+### Environment Variables
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+```bash
+# Backend API
+NEXT_PUBLIC_BASE_URL=           # Backend API URL (default: http://localhost:4000)
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+# Socket.io
+NEXT_PUBLIC_SOCKET_URL=         # Socket.io server URL (default: http://localhost:4000)
+NEXT_PUBLIC_SOCKET_PATH=        # Socket.io path (default: /socket.io)
 
-## Learn More
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=       # Supabase project URL
+NEXT_PUBLIC_SUPABASE_ANON_KEY=  # Supabase anonymous key
 
-To learn more about Next.js, take a look at the following resources:
+# Web Push (optional)
+NEXT_PUBLIC_VAPID_PUBLIC_KEY=   # VAPID public key for push notifications
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Commands
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```bash
+pnpm run dev          # Development server with hot reload
+pnpm run build        # Production build
+pnpm run start        # Start production server (requires build)
+pnpm run lint         # Run ESLint
+```
 
-## Deploy on Vercel
+## Architecture
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```
+src/
+├── app/                    # Next.js App Router pages
+│   ├── (header)/           # Route group with shared header layout
+│   │   ├── admin/users/    # User management (protected)
+│   │   ├── conversations/  # Slack channel chat
+│   │   ├── myAssistant/    # AI assistant + tasks, alerts, notes
+│   │   ├── images/[page]/  # Image gallery with pagination (protected)
+│   │   ├── textToSpeech/   # TTS interface (protected)
+│   │   └── globalConstants/
+│   ├── login/
+│   └── register/
+├── components/             # Reusable UI components
+├── services/               # API service layer (one per domain)
+├── store/                  # Zustand stores (auth, conversations)
+├── config/                 # API and service worker config
+└── shared/
+    ├── interfaces/         # TypeScript interfaces
+    ├── hooks/              # Custom React hooks
+    ├── utils/api/          # Fetch utilities (client/server split)
+    ├── constants/          # Enums and validation messages
+    └── styles/             # Global SCSS variables
+```
+
+### Backend Integration
+
+This app connects to the Slack Bot backend which provides:
+
+- **REST API** at `NEXT_PUBLIC_BASE_URL` — CRUD for users, tasks, alerts, notes, images, TTS
+- **Socket.io** at `NEXT_PUBLIC_SOCKET_URL` — Real-time chat for assistant and public channels
+
+#### Socket.io Events
+
+```javascript
+// Assistant (private)
+socket.emit('join_assistant_room', { username, channel: userId })
+socket.emit('send_assistant_message', { message, userId, iaEnabled })
+socket.on('receive_assistant_message', (data) => {})
+
+// Public channels
+socket.emit('join_room', { username, channel })
+socket.emit('send_message', { message, username, channel, iaEnabled })
+socket.on('receive_message', (data) => {})
+```
+
+### Authentication
+
+- Supabase Auth handles signup/signin (email/password)
+- Next.js middleware protects `/images/*`, `/textToSpeech`, `/admin/*` routes
+- Client-side: Bearer token from localStorage injected via Axios interceptor
+- Server-side: Supabase session from cookies
+
+## Deploy
+
+Standard Next.js deployment. Compatible with Vercel out of the box.
+
+```bash
+pnpm run build && pnpm run start
+```
+
+## License
+
+ISC

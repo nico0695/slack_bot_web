@@ -40,7 +40,7 @@ const handleValidate = (values: ILoginForm) => {
 export default function Login() {
   const [isLoading, , startLoading, stopLoading] = useToggle();
 
-  const { push } = useRouter();
+  const { push, refresh } = useRouter();
 
   const { loginSupabase } = useAuthStore();
 
@@ -58,6 +58,9 @@ export default function Login() {
     } finally {
       stopLoading();
     }
+
+    refresh();
+    push('/');
   };
 
   const formik = useFormik({
@@ -74,7 +77,7 @@ export default function Login() {
       e.preventDefault();
       push('/register');
     },
-    [push]
+    [push],
   );
 
   return (
