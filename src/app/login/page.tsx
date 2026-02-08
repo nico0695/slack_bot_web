@@ -21,7 +21,7 @@ interface ILoginForm {
 export default function Login() {
   const [isLoading, , startLoading, stopLoading] = useToggle();
 
-  const { push } = useRouter();
+  const { push, refresh } = useRouter();
 
   const { loginSupabase } = useAuthStore();
 
@@ -54,6 +54,7 @@ export default function Login() {
       return;
     }
 
+    refresh();
     push('/');
   };
 

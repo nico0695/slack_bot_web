@@ -1,7 +1,9 @@
 'use client';
 import React from 'react';
+import { useRouter } from 'next/navigation';
 
 import Dialog from '@components/Dialog/Dialog';
+import TextButton from '@components/Buttons/TextButton/TextButton';
 
 import styles from './myProfile.module.scss';
 
@@ -13,7 +15,8 @@ import LabeledInput from '@components/LabeledInputs/LabeledInput';
 const MyProfile = ({ username }: { username: string }) => {
   const [isOpen, , showDialog, hideDialog] = useToggle();
 
-  const { data } = useAuthStore();
+  const { data, logoutSupabase } = useAuthStore();
+  const router = useRouter();
 
   return (
     <>
@@ -77,6 +80,18 @@ const MyProfile = ({ username }: { username: string }) => {
               disabled
               light
             />
+
+            <div className={styles.logoutButton}>
+              <TextButton
+                label="Cerrar sesión"
+                onClick={async () => {
+                  await logoutSupabase();
+                  hideDialog();
+                  router.refresh();
+                  router.push('/login');
+                }}
+              />
+            </div>
           </div>
         )}
       </Dialog>

@@ -2,7 +2,10 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { saveAuthData } from '../shared/utils/localStorage/auth.utils';
+import {
+  saveAuthData,
+  removeAuthData,
+} from '../shared/utils/localStorage/auth.utils';
 import {
   getUserMe,
   subscribePushNotification,
@@ -32,6 +35,8 @@ export interface IUserStoreHook extends IUserStore {
     email: string;
     password: string;
   }) => Promise<{ status: boolean; message?: string }>;
+
+  logoutSupabase: () => Promise<void>;
 
   validateSupabaseAuth: () => Promise<boolean>;
 }
@@ -106,6 +111,17 @@ export const useAuthStore = create<IUserStoreHook>()(
         return {
           status: true,
         };
+      },
+
+      logoutSupabase: async () => {
+        await supabase.auth.signOut();
+        removeAuthData();
+        set({
+          ...initialState,
+          auth: undefined,
+          data: undefined,
+          notificationSubscription: undefined,
+        });
       },
 
       validateSupabaseAuth: async (): Promise<boolean> => {
