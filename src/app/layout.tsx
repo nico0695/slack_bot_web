@@ -1,4 +1,5 @@
 import { Inter } from 'next/font/google';
+import type { Metadata } from 'next';
 
 import '../styles/globals.scss';
 
@@ -12,6 +13,11 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
+export const metadata: Metadata = {
+  title: 'Slack Bot Web',
+  description: 'Web interface for your Slack Bot',
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -19,8 +25,6 @@ export default function RootLayout({
 }) {
   return (
     <html className={`${inter.variable} `}>
-      <head />
-
       <body>
         <ValidationHeader />
         {children}

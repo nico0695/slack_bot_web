@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
+import { useCallback } from 'react';
 
 import { useAuthStore } from '../../store/useAuthStore';
 
@@ -18,6 +19,24 @@ interface ILoginForm {
   password: string;
 }
 
+const handleValidate = (values: ILoginForm) => {
+  const errors: Partial<ILoginForm> = {};
+
+  if (!values.email) {
+    errors.email = validationMessages.required;
+  }
+
+  if (!/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/.test(values.email)) {
+    errors.email = validationMessages.invalidEmail;
+  }
+
+  if (!values.password) {
+    errors.password = validationMessages.required;
+  }
+
+  return errors;
+};
+
 export default function Login() {
   const [isLoading, , startLoading, stopLoading] = useToggle();
 
@@ -25,33 +44,19 @@ export default function Login() {
 
   const { loginSupabase } = useAuthStore();
 
-  const handleValidate = (values: ILoginForm) => {
-    const errors: Partial<ILoginForm> = {};
-
-    if (!values.email) {
-      errors.email = validationMessages.required;
-    }
-
-    if (!/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/.test(values.email)) {
-      errors.email = validationMessages.invalidEmail;
-    }
-
-    if (!values.password) {
-      errors.password = validationMessages.required;
-    }
-
-    return errors;
-  };
-
   const handleSubmit = async (values: ILoginForm) => {
     startLoading();
+    try {
+      const response = await loginSupabase(values);
 
-    const response = await loginSupabase(values);
+      if (!response.status) {
+        toast.error(response.message);
+        return;
+      }
 
-    if (!response.status) {
-      toast.error(response.message);
+      push('/');
+    } finally {
       stopLoading();
-      return;
     }
 
     refresh();
@@ -66,6 +71,14 @@ export default function Login() {
     validate: handleValidate,
     onSubmit: handleSubmit,
   });
+
+  const handleRegisterClick = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      push('/register');
+    },
+    [push],
+  );
 
   return (
     <div className={styles.formSection}>
@@ -97,10 +110,7 @@ export default function Login() {
           <TextButton
             label="Registrarse"
             type="submit"
-            onClick={(e) => {
-              e.preventDefault();
-              push('/register');
-            }}
+            onClick={handleRegisterClick}
           />
         </div>
       </form>

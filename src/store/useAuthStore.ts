@@ -60,57 +60,66 @@ export const useAuthStore = create<IUserStoreHook>()(
         email: string;
         password: string;
       }): Promise<{ status: boolean; message?: string }> => {
-        const { data: responseData, error } =
-          await supabase.auth.signInWithPassword(data);
+        try {
+          const { data: responseData, error } =
+            await supabase.auth.signInWithPassword(data);
 
-        if (error || !responseData) {
-          const messageTraduction: { [key: string]: string } = {
-            ['Email not confirmed']: 'Email no verificado',
-            ['Invalid login credentials']: 'Credenciales inválidas',
-          };
+          if (error || !responseData) {
+            const messageTraduction: { [key: string]: string } = {
+              ['Email not confirmed']: 'Email no verificado',
+              ['Invalid login credentials']: 'Credenciales inválidas',
+            };
+
+            return {
+              status: false,
+              message:
+                messageTraduction[error?.message ?? ''] ??
+                'Something went wrong',
+            };
+          }
+
+          saveAuthData(responseData.user.id, responseData.session.access_token);
+
+          const [userData, pushSubscription] = await Promise.all([
+            getUserMe(),
+            (async () => {
+              // TODO: Add validation to prevent multiple subscriptions
+              const subscription = await serviceWorkerConfig();
+              if (subscription) {
+                const subscribed =
+                  await subscribePushNotification(subscription);
+                if (subscribed) {
+                  return subscription;
+                }
+              }
+              return undefined;
+            })(),
+          ]);
+
+          set({
+            username: responseData.user.email?.split('@')[0],
+            email: responseData.user.email,
+            auth: {
+              userId: responseData.user.id,
+              token: responseData.session.access_token,
+              expires_at: responseData.session.expires_at,
+              refresh_token: responseData.session.refresh_token,
+            },
+            data: userData,
+            notificationSubscription: pushSubscription,
+          });
 
           return {
-            status: false,
-            message:
-              messageTraduction[error?.message ?? ''] ?? 'Something went wrong',
+            status: true,
           };
+        } catch (error) {
+          console.error('Login process failed:', error);
+          const message =
+            error instanceof Error
+              ? error.message
+              : 'An unexpected error occurred during login.';
+          return { status: false, message };
         }
-
-        set({
-          username: responseData.user.email?.split('@')[0],
-          email: responseData.user.email,
-          auth: {
-            userId: responseData.user.id,
-            token: responseData.session.access_token,
-            expires_at: responseData.session.expires_at,
-            refresh_token: responseData.session.refresh_token,
-          },
-        });
-
-        saveAuthData(responseData.user.id, responseData.session.access_token);
-
-        const userData = await getUserMe();
-
-        set({ data: userData });
-
-        // TODO: Add validation to prevent multiple subscriptions
-        // if (
-        //   !get().notificationSubscription ||
-        //   (await navigator.serviceWorker.getRegistrations()).length === 0
-        // ) {
-        // Web notification subscription
-        const subscription = await serviceWorkerConfig();
-        if (subscription) {
-          subscribePushNotification(subscription).then((response) => {
-            if (response) {
-              set({ notificationSubscription: subscription });
-            }
-          });
-        }
-
-        return {
-          status: true,
-        };
       },
 
       logoutSupabase: async () => {
@@ -150,6 +159,6 @@ export const useAuthStore = create<IUserStoreHook>()(
     {
       name: 'user-session', // name of the item in the storage (must be unique)
       storage: createJSONStorage(() => localStorage), // (optional) by default, 'localStorage' is used
-    }
-  )
+    },
+  ),
 );
