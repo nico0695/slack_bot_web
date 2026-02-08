@@ -1,4 +1,4 @@
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 
 import axios, {
   AxiosInstance,
@@ -47,7 +47,7 @@ export const fetchData = async <T>(
     const { cookies } = await import('next/headers');
 
     const cookieStore = cookies();
-    const supabase = createRouteHandlerClient({ cookies: () => cookieStore });
+    const supabase = createServerComponentClient({ cookies: () => cookieStore });
     const session = await supabase.auth.getSession();
     const accessToken = session.data?.session?.access_token;
 

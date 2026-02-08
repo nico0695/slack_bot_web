@@ -22,7 +22,7 @@ const useScrollChat = <T>(list?: T[]) => {
         scrollToBottom();
       }
     }
-  }, [scrollRef, ...([list] ?? [])]);
+  }, [scrollRef, ...(list ? [list] : [])]);
 
   return [scrollRef];
 };
