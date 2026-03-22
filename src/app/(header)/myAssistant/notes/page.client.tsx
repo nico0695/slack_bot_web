@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
+import { FaRegEdit, FaRegTrashAlt, FaRegStickyNote } from 'react-icons/fa';
 
 import { INote } from '@interfaces/notes.interfaces';
 import { getNotes } from '@services/notes/notes.service';
@@ -96,7 +96,19 @@ const Notes = ({ initialNotes }: INotesProps) => {
         ))}
 
         {notes.length === 0 && (
-          <li className={`${styles.noteItem} center`}>No hay notas</li>
+          <li className={styles.emptyState}>
+            <FaRegStickyNote size={32} />
+            <p>No tenés notas todavía</p>
+            <button
+              className={styles.emptyStateAction}
+              onClick={() => {
+                openDialog();
+                setSelectionData({ action: ActionTypes.CREATE, data: undefined });
+              }}
+            >
+              Crear primera nota
+            </button>
+          </li>
         )}
       </ul>
 

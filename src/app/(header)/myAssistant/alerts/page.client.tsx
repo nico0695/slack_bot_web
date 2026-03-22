@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { FaRegTrashAlt } from 'react-icons/fa';
+import { FaRegTrashAlt, FaRegClock } from 'react-icons/fa';
 
 import { IAlert } from '@interfaces/alerts.interfaces';
 import { getAlerts } from '@services/alerts/alerts.service';
@@ -82,7 +82,21 @@ const Alerts = ({ initialAlerts }: IAlertsProps) => {
           </li>
         ))}
 
-        {alerts.length === 0 && <li>No hay alertas</li>}
+        {alerts.length === 0 && (
+          <li className={styles.emptyState}>
+            <FaRegClock size={32} />
+            <p>No tenés alertas programadas</p>
+            <button
+              className={styles.emptyStateAction}
+              onClick={() => {
+                openDialog();
+                setSelectionData({ action: ActionTypes.CREATE, data: undefined });
+              }}
+            >
+              Crear primera alerta
+            </button>
+          </li>
+        )}
       </ul>
 
       <Dialog title="Nueva alerta" isOpen={isOpen} hideModal={closeDialog}>

@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { FaRegEdit, FaRegTrashAlt } from 'react-icons/fa';
+import { FaRegEdit, FaRegTrashAlt, FaTasks } from 'react-icons/fa';
 
 import { ITask } from '@interfaces/tasks.interfaces';
 import { getTasks } from '@services/tasks/tasks.service';
@@ -96,7 +96,21 @@ const Tasks = ({ initialTasks }: ITasksProps) => {
           </li>
         ))}
 
-        {tasks.length === 0 && <li>No hay tareas</li>}
+        {tasks.length === 0 && (
+          <li className={styles.emptyState}>
+            <FaTasks size={32} />
+            <p>No tenés tareas todavía</p>
+            <button
+              className={styles.emptyStateAction}
+              onClick={() => {
+                openDialog();
+                setSelectionData({ action: ActionTypes.CREATE, data: undefined });
+              }}
+            >
+              Crear primera tarea
+            </button>
+          </li>
+        )}
       </ul>
 
       <Dialog title="Nueva tarea" isOpen={isOpen} hideModal={closeDialog}>

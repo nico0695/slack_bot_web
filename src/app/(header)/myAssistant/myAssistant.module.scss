@@ -68,6 +68,60 @@
   }
 }
 
+// EMPTY STATE
+
+.emptyChat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  flex: 1;
+  width: 100%;
+  padding: 40px 20px;
+  text-align: center;
+
+  color: var(--blue-bayoux-300);
+
+  animation: fadeIn 0.3s ease-in-out forwards;
+
+  h5 {
+    margin: 16px 0 8px;
+    color: var(--blue-bayoux-100);
+    font-size: 1.1em;
+  }
+
+  p {
+    margin: 0 0 12px;
+    font-size: 0.9em;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px;
+
+    li {
+      margin-bottom: 6px;
+      font-size: 0.85em;
+      color: var(--blue-bayoux-200);
+      text-align: left;
+    }
+  }
+
+  small {
+    font-size: 0.78em;
+    color: var(--blue-bayoux-500);
+    font-style: italic;
+  }
+}
+
+.emptyChatIcon {
+  color: var(--blue-bayoux-600);
+}
+
+// BUBBLES
+
 .bubble {
   border-radius: 10px;
   padding: 10px;
@@ -116,18 +170,56 @@
   font-size: 0.85em;
 }
 
+// TYPING INDICATOR
+
+.typingBubble {
+  padding-bottom: 6px;
+}
+
+.typingIndicator {
+  display: flex;
+  gap: 5px;
+  margin: 6px 0 4px;
+
+  span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--blue-bayoux-400);
+    animation: typingBounce 1.2s infinite ease-in-out;
+
+    &:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    &:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+  }
+}
+
+@keyframes typingBounce {
+  0%, 80%, 100% { transform: translateY(0); }
+  40%           { transform: translateY(-7px); }
+}
+
+.typingStatus {
+  margin: 0;
+  font-size: 0.78em;
+  color: var(--blue-bayoux-300);
+  font-style: italic;
+}
+
 // MESSAGE INPUT
 
 .formContainer {
   display: flex;
   justify-content: space-between;
-  align-items: stretch;
+  align-items: flex-end;
   gap: 20px;
 }
 
 .messageInput {
   width: 100%;
-
   flex-grow: 1;
 
   border-radius: 5px;
@@ -135,9 +227,29 @@
   border: 1px solid var(--blue-bayoux-600);
 
   padding: 10px;
+  color: inherit;
+
+  resize: none;
+  min-height: 76px;
+  max-height: 120px;
+  overflow-y: auto;
+  line-height: 1.5;
+
+  font-family: inherit;
+  font-size: inherit;
+
+  &::placeholder {
+    color: var(--blue-bayoux-400);
+    font-style: italic;
+  }
 
   &:focus {
     outline: none;
     background-color: var(--blue-bayoux-900);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 }

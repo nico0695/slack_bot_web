@@ -20,33 +20,41 @@ export default function MyAssistantLayout({
   return (
     <div className={styles.myAssistantWrapper}>
       <div className={styles.assistantMenu}>
-        <Link
-          href={'/myAssistant'}
-          className={pathName === '/myAssistant' ? 'active' : ''}
-        >
-          <FaRocketchat size={24} />
-        </Link>
+        <span className={styles.menuItem} data-tooltip="Copilot">
+          <Link
+            href={'/myAssistant'}
+            className={pathName === '/myAssistant' ? 'active' : ''}
+          >
+            <FaRocketchat size={24} />
+          </Link>
+        </span>
 
-        <Link
-          href={'/myAssistant/alerts'}
-          className={pathName === '/myAssistant/alerts' ? 'active' : ''}
-        >
-          <FaRegClock size={24} />
-        </Link>
+        <span className={styles.menuItem} data-tooltip="Alertas">
+          <Link
+            href={'/myAssistant/alerts'}
+            className={pathName === '/myAssistant/alerts' ? 'active' : ''}
+          >
+            <FaRegClock size={24} />
+          </Link>
+        </span>
 
-        <Link
-          href={'/myAssistant/notes'}
-          className={pathName === '/myAssistant/notes' ? 'active' : ''}
-        >
-          <FaRegStickyNote size={24} />
-        </Link>
+        <span className={styles.menuItem} data-tooltip="Notas">
+          <Link
+            href={'/myAssistant/notes'}
+            className={pathName === '/myAssistant/notes' ? 'active' : ''}
+          >
+            <FaRegStickyNote size={24} />
+          </Link>
+        </span>
 
-        <Link
-          href={'/myAssistant/tasks'}
-          className={pathName === '/myAssistant/tasks' ? 'active' : ''}
-        >
-          <FaTasks size={24} />
-        </Link>
+        <span className={styles.menuItem} data-tooltip="Tareas">
+          <Link
+            href={'/myAssistant/tasks'}
+            className={pathName === '/myAssistant/tasks' ? 'active' : ''}
+          >
+            <FaTasks size={24} />
+          </Link>
+        </span>
       </div>
       <div className={styles.assistantContainer}>{children}</div>
     </div>
