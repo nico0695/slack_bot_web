@@ -3,7 +3,7 @@ import React, { Suspense, useEffect, useState } from 'react';
 
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { FaRocketchat } from 'react-icons/fa';
+import { FaRocketchat, FaCopy } from 'react-icons/fa';
 
 import styles from './myAssistant.module.scss';
 import PrimaryButton from '@components/Buttons/PrimaryButton/PrimaryButton';
@@ -15,16 +15,21 @@ import {
   RoleTypes,
 } from '../conversations/components/ConversationFlow/interfaces/conversation.interfaces';
 import Loading from './loading';
+
+interface IConversationMessage extends IUserConversation {
+  receivedAt: Date;
+}
 import useScrollChat from '@hooks/useScrollChat/useScrollChat';
 
 const MyAssistant = () => {
   const [message, setMessage] = useState('');
 
-  const [conversation, setConversation] = useState<IUserConversation[]>([]);
+  const [conversation, setConversation] = useState<IConversationMessage[]>([]);
 
   const [iaEnabled, setIaEnabled] = useState(false);
 
   const [botStatus, setBotStatus] = useState<string | null>(null);
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
   const [conversationRef] = useScrollChat(conversation);
 
@@ -45,7 +50,9 @@ const MyAssistant = () => {
       (response: { conversation: IUserConversation[] }) => {
         if (response.conversation) {
           setConversation(
-            response.conversation.filter((conv) => conv !== null)
+            response.conversation
+              .filter((conv) => conv !== null)
+              .map((conv) => ({ ...conv, receivedAt: new Date() }))
           );
         }
       }
@@ -58,7 +65,7 @@ const MyAssistant = () => {
     socket.on('receive_assistant_message', (data: IUserConversation) => {
       if (data) {
         setBotStatus(null);
-        setConversation((prevConversation) => [...prevConversation, data]);
+        setConversation((prevConversation) => [...prevConversation, { ...data, receivedAt: new Date() }]);
       }
     });
 
@@ -89,11 +96,19 @@ const MyAssistant = () => {
           role: RoleTypes.user,
           content: message.trim(),
           provider: ConversationProviders.WEB,
+          receivedAt: new Date(),
         },
       ]);
 
       setMessage('');
     }
+  };
+
+  const handleCopy = (content: string, index: number) => {
+    navigator.clipboard.writeText(content).then(() => {
+      setCopiedIndex(index);
+      setTimeout(() => setCopiedIndex(null), 2000);
+    }).catch(() => {});
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -144,7 +159,7 @@ const MyAssistant = () => {
             </div>
           )}
 
-          {conversation.map((data: IUserConversation, i: number) => (
+          {conversation.map((data: IConversationMessage, i: number) => (
             <div
               key={i}
               className={`${styles.bubble} ${
@@ -153,11 +168,16 @@ const MyAssistant = () => {
                   : styles.bubbleLeft
               }`}
             >
-              <h6 className={styles.bubbleUser}>
-                {data.role !== RoleTypes.user ? 'Bot' : username}
+              <div className={styles.bubbleHeader}>
+                <h6 className={styles.bubbleUser}>
+                  {data.role !== RoleTypes.user ? 'Bot' : username}
 
-                {data.provider === 'slack' && <small>(Slack)</small>}
-              </h6>
+                  {data.provider === 'slack' && <small>(Slack)</small>}
+                </h6>
+                <span className={styles.bubbleTimestamp}>
+                  {data.receivedAt.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}
+                </span>
+              </div>
 
               {data.role !== RoleTypes.user && (
                 <ReactMarkdown
@@ -170,6 +190,16 @@ const MyAssistant = () => {
 
               {data.role === RoleTypes.user && (
                 <p className={styles.bubbleMessage}>{data.content}</p>
+              )}
+
+              {data.role !== RoleTypes.user && (
+                <button
+                  className={`${styles.copyButton}${copiedIndex === i ? ` ${styles.copyButtonActive}` : ''}`}
+                  onClick={() => handleCopy(data.content, i)}
+                  title="Copiar mensaje"
+                >
+                  {copiedIndex === i ? '¡Copiado!' : <FaCopy size={12} />}
+                </button>
               )}
             </div>
           ))}

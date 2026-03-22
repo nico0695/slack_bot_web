@@ -6,7 +6,7 @@ import { ITask } from '@interfaces/tasks.interfaces';
 import { getTasks } from '@services/tasks/tasks.service';
 
 import styles from './tasks.module.scss';
-import { taskStatusText } from '@constants/tasks.constants';
+import { taskStatusText, TaskStatus, taskOptions } from '@constants/tasks.constants';
 
 import { ActionTypes } from '@constants/form.constants';
 import TaskForm from './components/TaskForm/TaskForm';
@@ -33,6 +33,7 @@ const Tasks = ({ initialTasks }: ITasksProps) => {
   });
 
   const [tasks, setTasks] = useState<ITask[]>(initialTasks);
+  const [statusFilter, setStatusFilter] = useState<TaskStatus | 'all'>('all');
 
   const fetchData = async () => {
     const data = await getTasks();
@@ -43,6 +44,9 @@ const Tasks = ({ initialTasks }: ITasksProps) => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const filterOptions = [{ label: 'Todas', value: 'all' as const }, ...taskOptions];
+  const filteredTasks = statusFilter === 'all' ? tasks : tasks.filter((t) => t.status === statusFilter);
 
   return (
     <div>
@@ -60,9 +64,22 @@ const Tasks = ({ initialTasks }: ITasksProps) => {
           }}
         />
       </div>
+
+      <div className={styles.filterChips}>
+        {filterOptions.map((option) => (
+          <button
+            key={option.value}
+            className={`${styles.chip}${statusFilter === option.value ? ` ${styles.chipActive}` : ''}`}
+            onClick={() => setStatusFilter(option.value as TaskStatus | 'all')}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
+
       <ul className={styles.tasksList}>
-        {tasks.map((task) => (
-          <li key={task.id} className={styles.taskItem}>
+        {filteredTasks.map((task) => (
+          <li key={task.id} className={styles.taskItem} data-status={task.status}>
             <h5>
               {task.title} <span>{taskStatusText[task.status]}</span>
             </h5>
@@ -96,19 +113,25 @@ const Tasks = ({ initialTasks }: ITasksProps) => {
           </li>
         ))}
 
-        {tasks.length === 0 && (
+        {filteredTasks.length === 0 && (
           <li className={styles.emptyState}>
             <FaTasks size={32} />
-            <p>No tenés tareas todavía</p>
-            <button
-              className={styles.emptyStateAction}
-              onClick={() => {
-                openDialog();
-                setSelectionData({ action: ActionTypes.CREATE, data: undefined });
-              }}
-            >
-              Crear primera tarea
-            </button>
+            {tasks.length === 0 ? (
+              <>
+                <p>No tenés tareas todavía</p>
+                <button
+                  className={styles.emptyStateAction}
+                  onClick={() => {
+                    openDialog();
+                    setSelectionData({ action: ActionTypes.CREATE, data: undefined });
+                  }}
+                >
+                  Crear primera tarea
+                </button>
+              </>
+            ) : (
+              <p>No hay tareas con ese estado</p>
+            )}
           </li>
         )}
       </ul>

@@ -4,6 +4,42 @@
   align-items: center;
 }
 
+// FILTER CHIPS
+
+.filterChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 0;
+}
+
+.chip {
+  padding: 4px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--blue-bayoux-600);
+  background: transparent;
+  color: var(--blue-bayoux-300);
+  font-size: 0.82em;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+
+  &:hover {
+    background: var(--blue-bayoux-800);
+    border-color: var(--blue-bayoux-400);
+  }
+}
+
+.chipActive {
+  background: var(--btn-primary);
+  border-color: var(--btn-primary);
+  color: var(--text-primary-color);
+
+  &:hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+  }
+}
+
 // TASK LIST
 
 .tasksList {
@@ -66,6 +102,22 @@
     color: var(--blue-bayoux-100);
 
     font-size: 0.9em;
+  }
+
+  &[data-status="pending"] {
+    border-left: 4px solid var(--blue-bayoux-500);
+  }
+
+  &[data-status="in_progress"] {
+    border-left: 4px solid var(--primary-color);
+  }
+
+  &[data-status="completed"] {
+    border-left: 4px solid var(--success-color);
+  }
+
+  &[data-status="canceled"] {
+    border-left: 4px solid var(--error-color);
   }
 }
 
