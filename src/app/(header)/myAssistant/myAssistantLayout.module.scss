@@ -36,6 +36,36 @@
   }
 }
 
+.menuItem {
+  position: relative;
+  display: flex;
+
+  &::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: calc(100% + 10px);
+    top: 50%;
+    transform: translateY(-50%);
+
+    background-color: var(--blue-bayoux-800);
+    border: 1px solid var(--blue-bayoux-500);
+    color: var(--blue-bayoux-100);
+
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.78em;
+    white-space: nowrap;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+  }
+
+  &:hover::after {
+    opacity: 1;
+  }
+}
+
 .assistantContainer {
   width: 100%;
 }
