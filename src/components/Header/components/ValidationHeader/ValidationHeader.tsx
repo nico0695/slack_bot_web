@@ -5,7 +5,7 @@ import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
 
-import { useAuthStore } from '../../../../store/useAuthStore';
+import { useAuthStore } from '@store/useAuthStore';
 import useNotificationsAlert from '@hooks/useNotificationsAlerts/useNotificationsAlerts';
 
 const ValidationHeader = () => {

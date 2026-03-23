@@ -8,6 +8,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { links } from './constants/navLink.constants';
 import MyProfile from './components/MyProfile/MyProfile';
 import AdminRoutes from './components/AdminRoutes/AdminRoutes';
+import HamburgerMenu from './components/HamburgerMenu/HamburgerMenu';
 
 const Header = async () => {
   const cookieStore = cookies();
@@ -16,41 +17,34 @@ const Header = async () => {
   const userLogged = await supabase.auth.getUser();
   const username = userLogged?.data.user?.email?.split('@')[0] ?? '';
 
+  const filteredLinks = links.filter(({ authenticated }) => !authenticated || username);
+
   return (
-    <header className={styles.header}>
-      <nav>
-        <ul className={styles.navigation}>
-          {links
-            .filter(({ authenticated }) => !authenticated || username)
-            .map(({ label, route }) => (
+    <>
+      <header className={styles.header}>
+        <nav>
+          <ul className={styles.navigation}>
+            {filteredLinks.map(({ label, route }) => (
               <Link href={route} key={route}>
                 <li>{label}</li>
               </Link>
             ))}
 
-          <AdminRoutes />
+            <AdminRoutes />
 
-          {!username && (
-            <Link href={'/login'}>
-              <li>{'Login'}</li>
-            </Link>
-          )}
-        </ul>
+            {!username && (
+              <Link href={'/login'}>
+                <li>{'Login'}</li>
+              </Link>
+            )}
+          </ul>
 
-        {/* Mobile provitional menu */}
-        <ul className={styles.navigationMobile}>
-          <Link href={'/'}>
-            <li>{'Home'}</li>
-          </Link>
+          {username && <MyProfile username={username} />}
+        </nav>
+      </header>
 
-          <Link href={'/myAssistant'}>
-            <li>{'Asistente'}</li>
-          </Link>
-        </ul>
-
-        {username && <MyProfile username={username} />}
-      </nav>
-    </header>
+      <HamburgerMenu links={filteredLinks} username={username} />
+    </>
   );
 };
 
