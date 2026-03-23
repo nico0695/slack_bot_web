@@ -7,6 +7,7 @@ import {
   FaRegClock,
   FaRocketchat,
   FaTasks,
+  FaLink,
 } from 'react-icons/fa';
 import { usePathname } from 'next/navigation';
 
@@ -53,6 +54,15 @@ export default function MyAssistantLayout({
             className={pathName === '/myAssistant/tasks' ? 'active' : ''}
           >
             <FaTasks size={24} />
+          </Link>
+        </span>
+
+        <span className={styles.menuItem} data-tooltip="Links">
+          <Link
+            href={'/myAssistant/links'}
+            className={pathName === '/myAssistant/links' ? 'active' : ''}
+          >
+            <FaLink size={24} />
           </Link>
         </span>
       </div>
