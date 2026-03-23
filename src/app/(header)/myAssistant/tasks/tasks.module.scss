@@ -21,6 +21,8 @@
   color: var(--blue-bayoux-300);
   font-size: 0.82em;
   cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
   transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 
   &:hover {
@@ -160,5 +162,28 @@
   &:hover {
     background: var(--blue-bayoux-800);
     border-color: var(--blue-bayoux-300);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .filterChips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .taskItem {
+    padding-right: 80px;
+
+    h5 {
+      min-width: unset;
+      white-space: normal;
+      word-break: break-word;
+    }
   }
 }
