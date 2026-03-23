@@ -210,6 +210,25 @@
   font-size: 0.85em;
 }
 
+@media screen and (max-width: 600px) {
+  .bubble {
+    width: 90%;
+  }
+
+  .header {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .formContainer {
+    gap: 10px;
+  }
+
+  .messageInput {
+    min-height: 50px;
+  }
+}
+
 // TYPING INDICATOR
 
 .typingBubble {

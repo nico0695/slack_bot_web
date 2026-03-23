@@ -49,6 +49,13 @@ a {
   position: relative;
 }
 
+@media screen and (max-width: 600px) {
+  .main-container {
+    margin-top: 10px;
+    width: 95vw;
+  }
+}
+
 // 404 page
 .not-found {
   display: flex;

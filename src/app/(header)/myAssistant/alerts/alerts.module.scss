@@ -110,3 +110,15 @@
     border-color: var(--blue-bayoux-300);
   }
 }
+
+@media screen and (max-width: 600px) {
+  .alertItem {
+    padding-right: 80px;
+
+    h5 {
+      min-width: unset;
+      white-space: normal;
+      word-break: break-word;
+    }
+  }
+}
