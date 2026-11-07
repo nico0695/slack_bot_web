@@ -1,5 +1,5 @@
 'use client';
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { Suspense, useState } from 'react';
 
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -7,102 +7,21 @@ import { FaRocketchat, FaCopy } from 'react-icons/fa';
 
 import styles from './myAssistant.module.scss';
 import PrimaryButton from '@components/Buttons/PrimaryButton/PrimaryButton';
-import { socket } from '@utils/api/socket';
 import { useAuthStore } from '@store/useAuthStore';
-import {
-  ConversationProviders,
-  IUserConversation,
-  RoleTypes,
-} from '../conversations/components/ConversationFlow/interfaces/conversation.interfaces';
+import { RoleTypes } from '../conversations/components/ConversationFlow/interfaces/conversation.interfaces';
+import useAssistantChat, { AssistantMessage } from '@hooks/useAssistantChat/useAssistantChat';
 import Loading from './loading';
 
-interface IConversationMessage extends IUserConversation {
-  receivedAt: Date;
-}
 import useScrollChat from '@hooks/useScrollChat/useScrollChat';
 
 const MyAssistant = () => {
-  const [message, setMessage] = useState('');
-
-  const [conversation, setConversation] = useState<IConversationMessage[]>([]);
-
+  const { message, setMessage, conversation, botStatus, busy, ready, error, send } = useAssistantChat();
   const [iaEnabled, setIaEnabled] = useState(false);
-
-  const [botStatus, setBotStatus] = useState<string | null>(null);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
-
   const [conversationRef] = useScrollChat(conversation);
+  const username = useAuthStore((state) => state.username);
 
-  const { username, data: userData } = useAuthStore();
-
-  const joinChat = () => {
-    socket?.emit('join_assistant_room', {
-      username,
-      channel: userData?.id ?? username,
-    });
-  };
-
-  useEffect(() => {
-    joinChat();
-
-    socket.on(
-      'join_assistant_response',
-      (response: { conversation: IUserConversation[] }) => {
-        if (response.conversation) {
-          setConversation(
-            response.conversation
-              .filter((conv) => conv !== null)
-              .map((conv) => ({ ...conv, receivedAt: new Date() }))
-          );
-        }
-      }
-    );
-
-    socket.on('receive_assistant_progress', ({ progress }: { progress: string }) => {
-      setBotStatus(progress);
-    });
-
-    socket.on('receive_assistant_message', (data: IUserConversation) => {
-      if (data) {
-        setBotStatus(null);
-        setConversation((prevConversation) => [...prevConversation, { ...data, receivedAt: new Date() }]);
-      }
-    });
-
-    return () => {
-      socket.off('join_assistant_room');
-      socket.off('join_assistant_response');
-      socket.off('receive_assistant_progress');
-      socket.off('receive_assistant_message');
-
-      socket.emit('leave_assistant_room', {
-        channel: userData?.id ?? username,
-      });
-    };
-  }, []);
-
-  const handleSend = () => {
-    if (message.trim() !== '' && !botStatus) {
-      socket.emit('send_assistant_message', {
-        userId: userData?.id,
-        message: message.trim(),
-        iaEnabled,
-      });
-
-      setConversation((prevConversation) => [
-        ...prevConversation,
-        {
-          userId: userData?.id,
-          role: RoleTypes.user,
-          content: message.trim(),
-          provider: ConversationProviders.WEB,
-          receivedAt: new Date(),
-        },
-      ]);
-
-      setMessage('');
-    }
-  };
+  const handleSend = () => { void send(iaEnabled); };
 
   const handleCopy = (content: string, index: number) => {
     navigator.clipboard.writeText(content).then(() => {
@@ -159,7 +78,7 @@ const MyAssistant = () => {
             </div>
           )}
 
-          {conversation.map((data: IConversationMessage, i: number) => (
+          {conversation.map((data: AssistantMessage, i: number) => (
             <div
               key={i}
               className={`${styles.bubble} ${
@@ -216,6 +135,7 @@ const MyAssistant = () => {
         </div>
 
         <div>
+          {error && <p role="alert">{error}</p>}
           <form onSubmit={handleSubmit} className={styles.formContainer}>
             <textarea
               value={message}
@@ -225,9 +145,9 @@ const MyAssistant = () => {
               placeholder="Escribí un mensaje... (Shift+Enter para nueva línea)"
               autoFocus
               rows={3}
-              disabled={!!botStatus}
+              disabled={!ready || busy}
             />
-            <PrimaryButton label=">" type="submit" disabled={!socket || !!botStatus} />
+            <PrimaryButton label=">" type="submit" disabled={!ready || busy || !message.trim()} />
           </form>
         </div>
       </div>
